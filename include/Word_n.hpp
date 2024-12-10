@@ -9,6 +9,7 @@
 #include <Word_n_unitary.hpp>   // For the unitary element
 #include <cmath>                // FOr the data size calcul (with pow)
 #include <iomanip>              // For display
+#include <string>               // For the string setter
 
 
 /**
@@ -54,6 +55,7 @@ public:
 
 
     // Unitary word setter and getter
+    void            setData(std::string data);
     void            setBloc(const Word_n_unitary unitary_word, long unsigned int index) {this->data[index] = unitary_word;}
     Word_n_unitary  getBloc(long unsigned int index) const                              {return this->data[index];}
 
@@ -114,6 +116,54 @@ Word_n<n>::~Word_n() {
  * Utilities
  * ================================================================================================
  */
+
+/**
+ * String setter :
+ * 
+ * Since we can write strings that look likes hexa numbers, here is the setter.
+ */
+template <int n>
+void Word_n<n>::setData(std::string data) {
+
+    /**
+     * String length verification :
+     * 
+     * -> the string must fit into the word so it lengt must be lower
+     * than :
+     * number_of_word_units * length_supported_by_word_units
+     * = 2^(n - 5) * 8
+     */
+    if (data.length() > (pow(2, n - 5) * 8)) {
+        throw std::out_of_range("The string must fit into the word.");
+    }
+
+
+    // Data preprocessing : make it long by a multiple of 8
+    if ((data.length() % 8) != 0) {
+        data = std::string(8 - (data.length() % 8), '0') + data;
+    }
+    
+
+    // Running through the <string>data, starting from the end
+    int data_index = 0;
+    for (int i = data.length(); i > 0; i -= 8) {
+
+        // Start index calculation
+        int start_index = i - 8;
+
+
+        // Data attribution
+        this->data[data_index].setData(data.substr(start_index, i - start_index));
+
+        
+        // Increment
+        data_index ++;
+
+    }
+
+
+}
+
 
 /**
  * Randomize : randomize every word units

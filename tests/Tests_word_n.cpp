@@ -30,7 +30,7 @@ int main() {
 
 
     // Display test
-    Word_n<6> word;
+    Word_n<8> word;
     std::cout << word << std::endl;
     word.display();
 
@@ -38,6 +38,17 @@ int main() {
     // Randomizer test
     word.randomize();
     word.display();
+
+
+    // String setter test
+    int string_setter = 0;
+    word.setData("F8E0CBF98A87BC3741903B75438F48");
+    if (word.getBloc(3) != 0x00F8E0CB || word.getBloc(2) != 0xF98A87BC || word.getBloc(1) != 0x3741903B || word.getBloc(0) != 0x75438F48) {
+        string_setter = 1;
+        std::cout << "Test(Word_n) : STRING SETTER -> FAILED" << std::endl;
+    } else {
+        std::cout << "Test(Word_n) : STRING SETTER -> PASSED" << std::endl;
+    }
 
 
     // Addition
@@ -85,10 +96,10 @@ int main() {
  */
 int test_Word_n_addition() {
 
-    // // Test variables
-    // Word_n word_n_1 = Word_n();
-    // Word_n word_n_2 = Word_n();
-    // Word_n word_n_3 = Word_n();
+    // Test variables
+    Word_n<8> word_n_1;
+    Word_n<8> word_n_2;
+    Word_n<9> word_n_3;
 
 
     // /**

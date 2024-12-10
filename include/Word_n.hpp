@@ -119,7 +119,7 @@ Word_n<n>::~Word_n() {
 template <int n>
 void Word_n<n>::randomize() {
 
-    // Running throug every word units
+    // Running through every word units
     for (Word_n_unitary& elt : data) {
         elt.randomize();
     }
@@ -133,7 +133,7 @@ void Word_n<n>::randomize() {
 template <int n>
 void Word_n<n>::display() const {
 
-    // Running throug every word units
+    // Running through every word units
     for (int i = this->data.size() - 1; i != -1; i--) {
 
         // Display the data
@@ -162,6 +162,58 @@ void Word_n<n>::display() const {
  */
 
 /**
+ * Overriding the addition :
+ * 
+ * 
+ * The addition is pretty simple :
+ * - we make it on each word unit using their properties
+ * 
+ * In fact, each word unit is on 64bit but only the 32bit lower store the data itslef. The half top, is used
+ * to save the carry, which is propagate after :
+ * 
+ *                63      31      0
+ *                |       |       |
+ * Bloc 1 ->     [    0   . data_1 ]
+ * Bloc 2 ->     [    0   . data_2 ]
+ * 
+ * Bloc 1 + 2 -> [ carry  .data_1+2]
+ * 
+ */
+template <int n>
+template <int m>
+Word_n<n+1> Word_n<n>::operator+(const Word_n<m>& word_n_2) const {
+
+    /**
+     * n and m verification :
+     * 
+     * -> n and m must be equal.
+     * -> n and m respect the instanication rules, so therefore the result wich is 2*n
+     * and so n = m < 16.
+     */
+    static_assert(n == m, "The rank of the two operand must be equal.");
+    static_assert(n < 16, "The rank of the two operand must be lower than 16.");
+
+
+    // Sum creation
+    Word_n<n+1> sum;
+
+
+    // Running through every word units
+    for (int i = 0; i != this->data.size(); i++) {
+
+        // Adding up word units
+        sum.setBloc(this->data[i] + word_n_2.getBloc(i));
+
+    }
+
+
+    // Retunring the sum
+    return sum;
+
+}
+
+
+/**
  * Overriding Cout :
  * 
  * Display only the usable data (each 32bit long lower part of all word units)
@@ -169,7 +221,7 @@ void Word_n<n>::display() const {
 template <int m>
 std::ostream& operator<<(std::ostream& os, const Word_n<m>& word) {
 
-    // Running throug every word units
+    // Running through every word units
     for (int i = word.data.size() - 1; i != -1; i--) {
 
         // Display the data

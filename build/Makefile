@@ -117,41 +117,67 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named Word_n
+# Target rules for targets named Tests_word_n
 
 # Build rule for target.
-Word_n: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Word_n
-.PHONY : Word_n
+Tests_word_n: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Tests_word_n
+.PHONY : Tests_word_n
 
 # fast build rule for target.
-Word_n/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Word_n.dir/build.make CMakeFiles/Word_n.dir/build
-.PHONY : Word_n/fast
+Tests_word_n/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Tests_word_n.dir/build.make CMakeFiles/Tests_word_n.dir/build
+.PHONY : Tests_word_n/fast
 
-src/Main.o: src/Main.cpp.o
-.PHONY : src/Main.o
+#=============================================================================
+# Target rules for targets named Word_n_unitary_lib
+
+# Build rule for target.
+Word_n_unitary_lib: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Word_n_unitary_lib
+.PHONY : Word_n_unitary_lib
+
+# fast build rule for target.
+Word_n_unitary_lib/fast:
+	$(MAKE) $(MAKESILENT) -f external/Word_n_unitary/CMakeFiles/Word_n_unitary_lib.dir/build.make external/Word_n_unitary/CMakeFiles/Word_n_unitary_lib.dir/build
+.PHONY : Word_n_unitary_lib/fast
+
+#=============================================================================
+# Target rules for targets named Tests_word_n_unitary
+
+# Build rule for target.
+Tests_word_n_unitary: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Tests_word_n_unitary
+.PHONY : Tests_word_n_unitary
+
+# fast build rule for target.
+Tests_word_n_unitary/fast:
+	$(MAKE) $(MAKESILENT) -f external/Word_n_unitary/CMakeFiles/Tests_word_n_unitary.dir/build.make external/Word_n_unitary/CMakeFiles/Tests_word_n_unitary.dir/build
+.PHONY : Tests_word_n_unitary/fast
+
+tests/Tests_word_n.o: tests/Tests_word_n.cpp.o
+.PHONY : tests/Tests_word_n.o
 
 # target to build an object file
-src/Main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Word_n.dir/build.make CMakeFiles/Word_n.dir/src/Main.cpp.o
-.PHONY : src/Main.cpp.o
+tests/Tests_word_n.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Tests_word_n.dir/build.make CMakeFiles/Tests_word_n.dir/tests/Tests_word_n.cpp.o
+.PHONY : tests/Tests_word_n.cpp.o
 
-src/Main.i: src/Main.cpp.i
-.PHONY : src/Main.i
+tests/Tests_word_n.i: tests/Tests_word_n.cpp.i
+.PHONY : tests/Tests_word_n.i
 
 # target to preprocess a source file
-src/Main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Word_n.dir/build.make CMakeFiles/Word_n.dir/src/Main.cpp.i
-.PHONY : src/Main.cpp.i
+tests/Tests_word_n.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Tests_word_n.dir/build.make CMakeFiles/Tests_word_n.dir/tests/Tests_word_n.cpp.i
+.PHONY : tests/Tests_word_n.cpp.i
 
-src/Main.s: src/Main.cpp.s
-.PHONY : src/Main.s
+tests/Tests_word_n.s: tests/Tests_word_n.cpp.s
+.PHONY : tests/Tests_word_n.s
 
 # target to generate assembly for a file
-src/Main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Word_n.dir/build.make CMakeFiles/Word_n.dir/src/Main.cpp.s
-.PHONY : src/Main.cpp.s
+tests/Tests_word_n.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Tests_word_n.dir/build.make CMakeFiles/Tests_word_n.dir/tests/Tests_word_n.cpp.s
+.PHONY : tests/Tests_word_n.cpp.s
 
 # Help Target
 help:
@@ -161,10 +187,12 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... Word_n"
-	@echo "... src/Main.o"
-	@echo "... src/Main.i"
-	@echo "... src/Main.s"
+	@echo "... Tests_word_n"
+	@echo "... Tests_word_n_unitary"
+	@echo "... Word_n_unitary_lib"
+	@echo "... tests/Tests_word_n.o"
+	@echo "... tests/Tests_word_n.i"
+	@echo "... tests/Tests_word_n.s"
 .PHONY : help
 
 

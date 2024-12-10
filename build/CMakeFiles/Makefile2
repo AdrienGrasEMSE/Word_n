@@ -63,42 +63,113 @@ CMAKE_BINARY_DIR = /home/adrieng/Documents/Dev/C-Cpp/RSA/Word_n/build
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/Word_n.dir/all
+all: CMakeFiles/Tests_word_n.dir/all
+all: external/Word_n_unitary/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
-preinstall:
+preinstall: external/Word_n_unitary/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/Word_n.dir/clean
+clean: CMakeFiles/Tests_word_n.dir/clean
+clean: external/Word_n_unitary/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/Word_n.dir
+# Directory level rules for directory external/Word_n_unitary
+
+# Recursive "all" directory target.
+external/Word_n_unitary/all: external/Word_n_unitary/CMakeFiles/Word_n_unitary_lib.dir/all
+external/Word_n_unitary/all: external/Word_n_unitary/CMakeFiles/Tests_word_n_unitary.dir/all
+.PHONY : external/Word_n_unitary/all
+
+# Recursive "preinstall" directory target.
+external/Word_n_unitary/preinstall:
+.PHONY : external/Word_n_unitary/preinstall
+
+# Recursive "clean" directory target.
+external/Word_n_unitary/clean: external/Word_n_unitary/CMakeFiles/Word_n_unitary_lib.dir/clean
+external/Word_n_unitary/clean: external/Word_n_unitary/CMakeFiles/Tests_word_n_unitary.dir/clean
+.PHONY : external/Word_n_unitary/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/Tests_word_n.dir
 
 # All Build rule for target.
-CMakeFiles/Word_n.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Word_n.dir/build.make CMakeFiles/Word_n.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Word_n.dir/build.make CMakeFiles/Word_n.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/adrieng/Documents/Dev/C-Cpp/RSA/Word_n/build/CMakeFiles --progress-num=1,2 "Built target Word_n"
-.PHONY : CMakeFiles/Word_n.dir/all
+CMakeFiles/Tests_word_n.dir/all: external/Word_n_unitary/CMakeFiles/Word_n_unitary_lib.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Tests_word_n.dir/build.make CMakeFiles/Tests_word_n.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Tests_word_n.dir/build.make CMakeFiles/Tests_word_n.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/adrieng/Documents/Dev/C-Cpp/RSA/Word_n/build/CMakeFiles --progress-num=1,2 "Built target Tests_word_n"
+.PHONY : CMakeFiles/Tests_word_n.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/Word_n.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/adrieng/Documents/Dev/C-Cpp/RSA/Word_n/build/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Word_n.dir/all
+CMakeFiles/Tests_word_n.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/adrieng/Documents/Dev/C-Cpp/RSA/Word_n/build/CMakeFiles 4
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Tests_word_n.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/adrieng/Documents/Dev/C-Cpp/RSA/Word_n/build/CMakeFiles 0
-.PHONY : CMakeFiles/Word_n.dir/rule
+.PHONY : CMakeFiles/Tests_word_n.dir/rule
 
 # Convenience name for target.
-Word_n: CMakeFiles/Word_n.dir/rule
-.PHONY : Word_n
+Tests_word_n: CMakeFiles/Tests_word_n.dir/rule
+.PHONY : Tests_word_n
 
 # clean rule for target.
-CMakeFiles/Word_n.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Word_n.dir/build.make CMakeFiles/Word_n.dir/clean
-.PHONY : CMakeFiles/Word_n.dir/clean
+CMakeFiles/Tests_word_n.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Tests_word_n.dir/build.make CMakeFiles/Tests_word_n.dir/clean
+.PHONY : CMakeFiles/Tests_word_n.dir/clean
+
+#=============================================================================
+# Target rules for target external/Word_n_unitary/CMakeFiles/Word_n_unitary_lib.dir
+
+# All Build rule for target.
+external/Word_n_unitary/CMakeFiles/Word_n_unitary_lib.dir/all:
+	$(MAKE) $(MAKESILENT) -f external/Word_n_unitary/CMakeFiles/Word_n_unitary_lib.dir/build.make external/Word_n_unitary/CMakeFiles/Word_n_unitary_lib.dir/depend
+	$(MAKE) $(MAKESILENT) -f external/Word_n_unitary/CMakeFiles/Word_n_unitary_lib.dir/build.make external/Word_n_unitary/CMakeFiles/Word_n_unitary_lib.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/adrieng/Documents/Dev/C-Cpp/RSA/Word_n/build/CMakeFiles --progress-num=5,6 "Built target Word_n_unitary_lib"
+.PHONY : external/Word_n_unitary/CMakeFiles/Word_n_unitary_lib.dir/all
+
+# Build rule for subdir invocation for target.
+external/Word_n_unitary/CMakeFiles/Word_n_unitary_lib.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/adrieng/Documents/Dev/C-Cpp/RSA/Word_n/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 external/Word_n_unitary/CMakeFiles/Word_n_unitary_lib.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/adrieng/Documents/Dev/C-Cpp/RSA/Word_n/build/CMakeFiles 0
+.PHONY : external/Word_n_unitary/CMakeFiles/Word_n_unitary_lib.dir/rule
+
+# Convenience name for target.
+Word_n_unitary_lib: external/Word_n_unitary/CMakeFiles/Word_n_unitary_lib.dir/rule
+.PHONY : Word_n_unitary_lib
+
+# clean rule for target.
+external/Word_n_unitary/CMakeFiles/Word_n_unitary_lib.dir/clean:
+	$(MAKE) $(MAKESILENT) -f external/Word_n_unitary/CMakeFiles/Word_n_unitary_lib.dir/build.make external/Word_n_unitary/CMakeFiles/Word_n_unitary_lib.dir/clean
+.PHONY : external/Word_n_unitary/CMakeFiles/Word_n_unitary_lib.dir/clean
+
+#=============================================================================
+# Target rules for target external/Word_n_unitary/CMakeFiles/Tests_word_n_unitary.dir
+
+# All Build rule for target.
+external/Word_n_unitary/CMakeFiles/Tests_word_n_unitary.dir/all: external/Word_n_unitary/CMakeFiles/Word_n_unitary_lib.dir/all
+	$(MAKE) $(MAKESILENT) -f external/Word_n_unitary/CMakeFiles/Tests_word_n_unitary.dir/build.make external/Word_n_unitary/CMakeFiles/Tests_word_n_unitary.dir/depend
+	$(MAKE) $(MAKESILENT) -f external/Word_n_unitary/CMakeFiles/Tests_word_n_unitary.dir/build.make external/Word_n_unitary/CMakeFiles/Tests_word_n_unitary.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/adrieng/Documents/Dev/C-Cpp/RSA/Word_n/build/CMakeFiles --progress-num=3,4 "Built target Tests_word_n_unitary"
+.PHONY : external/Word_n_unitary/CMakeFiles/Tests_word_n_unitary.dir/all
+
+# Build rule for subdir invocation for target.
+external/Word_n_unitary/CMakeFiles/Tests_word_n_unitary.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/adrieng/Documents/Dev/C-Cpp/RSA/Word_n/build/CMakeFiles 4
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 external/Word_n_unitary/CMakeFiles/Tests_word_n_unitary.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/adrieng/Documents/Dev/C-Cpp/RSA/Word_n/build/CMakeFiles 0
+.PHONY : external/Word_n_unitary/CMakeFiles/Tests_word_n_unitary.dir/rule
+
+# Convenience name for target.
+Tests_word_n_unitary: external/Word_n_unitary/CMakeFiles/Tests_word_n_unitary.dir/rule
+.PHONY : Tests_word_n_unitary
+
+# clean rule for target.
+external/Word_n_unitary/CMakeFiles/Tests_word_n_unitary.dir/clean:
+	$(MAKE) $(MAKESILENT) -f external/Word_n_unitary/CMakeFiles/Tests_word_n_unitary.dir/build.make external/Word_n_unitary/CMakeFiles/Tests_word_n_unitary.dir/clean
+.PHONY : external/Word_n_unitary/CMakeFiles/Tests_word_n_unitary.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

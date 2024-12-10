@@ -11,6 +11,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.30.5/CMakeCCompiler.cmake"
   "CMakeFiles/3.30.5/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.30.5/CMakeSystem.cmake"
+  "/home/adrieng/Documents/Dev/C-Cpp/RSA/Word_n/external/Word_n_unitary/CMakeLists.txt"
   "/usr/share/cmake-3.30/Modules/CMakeCCompiler.cmake.in"
   "/usr/share/cmake-3.30/Modules/CMakeCCompilerABI.c"
   "/usr/share/cmake-3.30/Modules/CMakeCInformation.cmake"
@@ -123,9 +124,12 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/3.30.5/CMakeCCompiler.cmake"
   "CMakeFiles/3.30.5/CMakeCXXCompiler.cmake"
   "CMakeFiles/CMakeDirectoryInformation.cmake"
+  "external/Word_n_unitary/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/Word_n.dir/DependInfo.cmake"
+  "CMakeFiles/Tests_word_n.dir/DependInfo.cmake"
+  "external/Word_n_unitary/CMakeFiles/Word_n_unitary_lib.dir/DependInfo.cmake"
+  "external/Word_n_unitary/CMakeFiles/Tests_word_n_unitary.dir/DependInfo.cmake"
   )

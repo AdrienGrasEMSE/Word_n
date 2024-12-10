@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/adrieng/Documents/Dev/C-Cpp/RSA/Word_n/include -I/home/adrieng/Documents/Dev/C-Cpp/RSA/Word_n/../Word_n_unitary/include
+CXX_INCLUDES = -I/home/adrieng/Documents/Dev/C-Cpp/RSA/Word_n/include -I/home/adrieng/Documents/Dev/C-Cpp/RSA/Word_n/external/Word_n_unitary/include
 
 CXX_FLAGS = -std=gnu++17
 

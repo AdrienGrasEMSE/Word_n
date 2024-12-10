@@ -6,7 +6,7 @@
 #include <iostream>             // For the std::cout override
 #include <stdint.h>             // For the data format : uint64_t
 #include <array>                // For the data array
-#include "Word_n_unitary.hpp"   // For the unitary element
+#include <Word_n_unitary.hpp>   // For the unitary element
 
 
 /**
@@ -202,7 +202,12 @@ Word_n<n+1> Word_n<n>::operator+(const Word_n<m>& word_n_2) const {
     for (int i = 0; i != this->data.size(); i++) {
 
         // Adding up word units
-        sum.setBloc(this->data[i] + word_n_2.getBloc(i));
+        sum.setBloc(this->data[i] + word_n_2.getBloc(i), i);
+
+
+        // Carry propagation
+        sum.setBloc(sum.getBloc(i).getCarry(), i + 1);
+        sum.getBloc(i).resetCarry();
 
     }
 

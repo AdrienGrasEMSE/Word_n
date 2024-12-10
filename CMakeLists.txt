@@ -8,32 +8,27 @@ project(Word_n)
 
 # Specify that we are using C++17
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 
-# Set the path to include the headers of the library
-include_directories(${PROJECT_SOURCE_DIR}/include)          # Local headers of Word_n
-include_directories("../Word_n_unitary/include")            # Headers of Word_n_unitary
-link_directories("../Word_n_unitary/build")                 # Path to the compiled library
+# Add the include path for Word_n headers
+include_directories(${PROJECT_SOURCE_DIR}/include)
 
-# Ajoute les sources de ton projet
-set(SOURCES
-    src/Main.cpp
+# Add the Word_n_unitary submodule as a dependency
+add_subdirectory(external/Word_n_unitary)
+
+
+
+# Set the sources of your test executable
+set(TEST_SOURCES
+    tests/Tests_word_n.cpp
 )
 
-
-
-# Create the main executable
-add_executable(Word_n ${SOURCES})
-
-# Link to the library
-target_link_libraries(Word_n Word_n_unitary_lib)
+# Create the test executable
+add_executable(Tests_word_n ${TEST_SOURCES})
 
 
 
-# Enable testing
-#enable_testing()
-
-# Ajouter les tests si nécessaire
-#add_executable(Tests_word_n tests/Tests_word_n.cpp)
-#target_link_libraries(Tests_word_n Word_n_unitary_lib)
+# Link to the Word_n_unitary library
+target_link_libraries(Tests_word_n PRIVATE Word_n_unitary_lib)

@@ -1,3 +1,3 @@
 [submodule "external/Word_n_unitary"]
 	path = external/Word_n_unitary
-	url = git@github.com:AdrienGrasEMSE/Word_n.git
+	url = git@github.com:AdrienGrasEMSE/Word_n_unitary.git

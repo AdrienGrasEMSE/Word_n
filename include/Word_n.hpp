@@ -7,6 +7,8 @@
 #include <stdint.h>             // For the data format : uint64_t
 #include <array>                // For the data array
 #include <Word_n_unitary.hpp>   // For the unitary element
+#include <cmath>                // FOr the data size calcul (with pow)
+#include <iomanip>              // For display
 
 
 /**
@@ -25,7 +27,7 @@ class Word_n {
 private:
 
     // The data array
-    std::array<Word_n_unitary, n>  data;
+    std::array<Word_n_unitary, static_cast<long unsigned int>(pow(2, n - 5))> data;
 
 
 public:
@@ -137,7 +139,7 @@ void Word_n<n>::display() const {
     for (int i = this->data.size() - 1; i != -1; i--) {
 
         // Display the data
-        std::cout << "Bloc : " << i << " - ";
+        std::cout << "Bloc : " << std::setw(4) << std::setfill(' ') << i << " - ";
         this->data[i].display(false);
 
 
@@ -230,7 +232,7 @@ std::ostream& operator<<(std::ostream& os, const Word_n<m>& word) {
     for (int i = word.data.size() - 1; i != -1; i--) {
 
         // Display the data
-        os << "Bloc : " << i << " - " << std::hex << word.data[i];
+        os << "Bloc : " << std::setw(4) << std::setfill(' ') << i << " - " << std::hex << word.data[i];
 
 
         // Spacing

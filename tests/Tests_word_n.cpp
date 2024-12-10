@@ -30,7 +30,7 @@ int main() {
 
 
     // Display test
-    Word_n<9> word;
+    Word_n<6> word;
     std::cout << word << std::endl;
     word.display();
 

@@ -42,7 +42,7 @@ int main() {
 
     // String setter test
     int string_setter = 0;
-    word.setData("F8E0CBF98A87BC3741903B75438F48");
+    word.setData("0xF8E0CBF98A87BC3741903B75438F48");
     if (word.getBloc(3) != 0x00F8E0CB || word.getBloc(2) != 0xF98A87BC || word.getBloc(1) != 0x3741903B || word.getBloc(0) != 0x75438F48) {
         string_setter = 1;
         std::cout << "Test(Word_n) : STRING SETTER -> FAILED" << std::endl;
@@ -102,22 +102,22 @@ int test_Word_n_addition() {
     Word_n<9> word_n_3;
 
 
-    // /**
-    //  * Calculation 1 :
-    //  * 
-    //  * A = 0xF1DFD08D
-    //  * B = 0x5A467FBE
-    //  * 
-    //  * C = A + B = 0x1 4C26504B
-    //  */
-    // word_n_1.setData(0xF1DFD08D);
-    // word_n_2.setData(0x5A467FBE);
-    // word_n_3 = word_n_1 + word_n_2;
+    /**
+     * Calculation 1 :
+     * 
+     * A = 0xC79B8230 B003EC77 2D0A7F73 F112EE32 522EE116 72854D3B B3A617E0 BCB09F73
+     * B = 0x59891946 1E9BA176 7F9AC415 F266E080 924D43A7 2E37625F DBD3A21E ED6A31E7
+     * 
+     * C = A + B = 0x1 21249B76 CE9F8DED ACA54389 E379CEB2 E47C24BD A0BCAF9B 8F79B9FF AA1AD15A
+     */
+    word_n_1.setData("0xC79B8230 B003EC77 2D0A7F73 F112EE32 522EE116 72854D3B B3A617E0 BCB09F73");
+    word_n_2.setData("0x59891946 1E9BA176 7F9AC415 F266E080 924D43A7 2E37625F DBD3A21E ED6A31E7");
+    word_n_3 = word_n_1 + word_n_2;
 
 
-    // // Test + reset
+    // Test + reset
     // if (word_n_3 != 0x14C26504B) {return 1;}
-    // word_n_3.setData(0x0);
+    word_n_3.setData(0x0);
 
 
 

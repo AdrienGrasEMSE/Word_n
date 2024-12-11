@@ -125,6 +125,16 @@ Word_n<n>::~Word_n() {
 template <int n>
 void Word_n<n>::setData(std::string data) {
 
+    // Erasing 0x
+    if (data.size() >= 2 && data.substr(0, 2) == "0x") {
+        data.erase(0, 2);
+    }
+
+
+    // Erasing all space
+    data.erase(std::remove(data.begin(), data.end(), ' '), data.end());
+
+
     /**
      * String length verification :
      * 

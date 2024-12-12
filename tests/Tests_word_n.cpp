@@ -25,26 +25,49 @@ int test_Word_n_multiplication();
  */
 int main() {
 
+    // Test variable
+    int test = 0;
+
+
     // Test start
     std::cout << "Test(Word_n) : START" << std::endl;
 
 
     // Display test
     Word_n<8> word;
-    std::cout << word << std::endl;
+    std::cout << "Test(Word_n_unitary) : Cout               -> \n" << word << std::endl;
+    std::cout << "\n\n" << std::endl;
+    std::cout << "Test(Word_n_unitary) : DISPLAY            -> \n";
     word.display();
+    std::cout << "\n\n" << std::endl;
 
 
     // Randomizer test
     word.randomize();
+    std::cout << "Test(Word_n_unitary) : RANDOMIZE          -> \n";
     word.display();
+    std::cout << "\n\n" << std::endl;
+
+
+    // Reset test
+    word.reset();
+    
 
 
     // String setter test
-    int string_setter = 0;
-    word.setData("0xF8E0CBF98A87BC3741903B75438F48");
+    word.setData("0xF8E0CB F98A87BC 3741903B 75438F48");
     if (word.getBloc(3) != 0x00F8E0CB || word.getBloc(2) != 0xF98A87BC || word.getBloc(1) != 0x3741903B || word.getBloc(0) != 0x75438F48) {
-        string_setter = 1;
+        test += 1;
+        std::cout << "Test(Word_n) : STRING SETTER -> FAILED" << std::endl;
+    } else {
+        std::cout << "Test(Word_n) : STRING SETTER -> PASSED" << std::endl;
+    }
+
+
+    // Data instanciation with = string test
+    word = "0xF8E0CB F98A87BC 3741903B 75438F48";
+    if (word.getBloc(3) != 0x00F8E0CB || word.getBloc(2) != 0xF98A87BC || word.getBloc(1) != 0x3741903B || word.getBloc(0) != 0x75438F48) {
+        test += 1;
         std::cout << "Test(Word_n) : STRING SETTER -> FAILED" << std::endl;
     } else {
         std::cout << "Test(Word_n) : STRING SETTER -> PASSED" << std::endl;
@@ -58,6 +81,7 @@ int main() {
     } else {
         std::cout << "Test(Word_n) : ADDITION -> PASSED" << std::endl;
     }
+    test += addition;
 
 
     // Substraction
@@ -67,6 +91,7 @@ int main() {
     } else {
         std::cout << "Test(Word_n) : SUBSTRACTION -> PASSED" << std::endl;
     }
+    test += substaction;
 
 
     // Addition
@@ -76,10 +101,11 @@ int main() {
     } else {
         std::cout << "Test(Word_n) : MULTIPLICATION -> PASSED" << std::endl;
     }
+    test += multiplication;
 
 
     // Program end
-    if ((addition + substaction + multiplication) == 0) {
+    if (test == 0) {
         std::cout << "Test(Word_n) : PASSED" << std::endl;
         return 0;
     }
@@ -110,14 +136,14 @@ int test_Word_n_addition() {
      * 
      * C = A + B = 0x1 21249B76 CE9F8DED ACA54389 E379CEB2 E47C24BD A0BCAF9B 8F79B9FF AA1AD15A
      */
-    word_n_1.setData("0xC79B8230 B003EC77 2D0A7F73 F112EE32 522EE116 72854D3B B3A617E0 BCB09F73");
+    word_n_1 = "0xC79B8230 B003EC77 2D0A7F73 F112EE32 522EE116 72854D3B B3A617E0 BCB09F73";
     word_n_2.setData("0x59891946 1E9BA176 7F9AC415 F266E080 924D43A7 2E37625F DBD3A21E ED6A31E7");
     word_n_3 = word_n_1 + word_n_2;
 
 
     // Test + reset
     // if (word_n_3 != 0x14C26504B) {return 1;}
-    word_n_3.setData(0x0);
+    // word_n_3.setData(0x0);
 
 
 

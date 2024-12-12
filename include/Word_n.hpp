@@ -10,6 +10,7 @@
 #include <cmath>                // FOr the data size calcul (with pow)
 #include <iomanip>              // For display
 #include <string>               // For the string setter
+#include <algorithm>            // For string manipulation
 
 
 /**
@@ -55,6 +56,7 @@ public:
 
 
     // Unitary word setter and getter
+    void            reset();
     void            setData(std::string data);
     void            setBloc(const Word_n_unitary unitary_word, long unsigned int index) {this->data[index] = unitary_word;}
     Word_n_unitary  getBloc(long unsigned int index) const                              {return this->data[index];}
@@ -70,11 +72,23 @@ public:
 
     // Overriding operators
     template<int m>
-    Word_n<n+1>     operator+(const Word_n<m>& word_n_2) const;
+    Word_n<n+1>     operator+   (const Word_n<m>& word_n_2) const;
+
     template<int m>
-    Word_n<n>       operator-(const Word_n<m>& word_n_2) const;
+    Word_n<n>       operator-   (const Word_n<m>& word_n_2) const;
+
     template<int m>
-    Word_n<n+1>     operator*(const Word_n<m>& word_n_2) const;
+    Word_n<n+1>     operator*   (const Word_n<m>& word_n_2) const;
+    Word_n<n>&      operator=   (std::string data);
+
+    template<int m>
+    bool            operator==  (const Word_n<m>& word_n_2) const;
+
+    template<int m>
+    bool            operator!=  (const Word_n<m>& word_n_2) const;
+    bool            operator==  (std::string data)          const;
+    bool            operator!=  (std::string data)          const;
+
 
     // Overriding Cout for display
     template<int m>
@@ -116,6 +130,20 @@ Word_n<n>::~Word_n() {
  * Utilities
  * ================================================================================================
  */
+
+/**
+ * Reset method
+ */
+template <int n>
+void Word_n<n>::reset() {
+
+    // Running through every word units
+    for (Word_n_unitary& elt : data) {
+        elt.reset();
+    }
+
+}
+
 
 /**
  * String setter :
@@ -276,6 +304,114 @@ Word_n<n+1> Word_n<n>::operator+(const Word_n<m>& word_n_2) const {
 
     // Retunring the sum
     return sum;
+
+}
+
+
+/**
+ * Data instanciation using '=' operator and string data
+ */
+template <int n>
+Word_n<n>& Word_n<n>::operator=(std::string data) {
+
+    // Data instanciation
+    this->setData(data);    
+
+
+    // Retunring itslef
+    return *this;
+
+}
+
+
+/**
+ * Internal data comparaison with another word_n
+ */
+template <int n>
+template <int m>
+bool Word_n<n>::operator==(const Word_n<m>& word_n_2) const {
+
+    /**
+     * n and m verification :
+     * 
+     * -> n and m must be equal.
+     */
+    static_assert(n == m, "The rank of the two operand must be equal.");
+
+
+    // Running through the data
+    for (int i = 0; i < this->data.size(); i++) {
+
+        // Word unit comparaison
+        if (this->data[i] != word_n_2.getBloc(i)) {
+            return false;
+        }
+
+    }
+    return true;
+
+}
+
+
+/**
+ * Internal data comparaison with a string
+ */
+template <int n>
+bool Word_n<n>::operator==(std::string data)          const {
+
+    // Putting the string data into an actual word_
+    Word_n<n> word_n_2;
+    word_n_2 = data;
+
+
+    // Return the comparaison
+    return this == word_n_2;
+
+}
+
+
+/**
+ * Internal data comparaison with a string
+ */
+template <int n>
+bool Word_n<n>::operator!=(std::string data)          const {
+
+    // Putting the string data into an actual word_
+    Word_n<n> word_n_2;
+    word_n_2 = data;
+
+
+    // Return the comparaison
+    return this != word_n_2;
+
+}
+
+
+/**
+ * Internal data comparaison with another word_n
+ */
+template <int n>
+template <int m>
+bool Word_n<n>::operator!=(const Word_n<m>& word_n_2) const {
+
+    /**
+     * n and m verification :
+     * 
+     * -> n and m must be equal.
+     */
+    static_assert(n == m, "The rank of the two operand must be equal.");
+
+
+    // Running through the data
+    for (int i = 0; i < this->data.size(); i++) {
+
+        // Word unit comparaison
+        if (this->data[i] == word_n_2.getBloc(i)) {
+            return false;
+        }
+
+    }
+    return true;
 
 }
 

@@ -29,7 +29,7 @@ class Word_n {
 private:
 
     // The data array
-    std::array<Word_n_unitary, static_cast<long unsigned int>(pow(2, n - 5))> data;
+    std::array<Word_n_unitary, static_cast<int>(pow(2, n - 5))> data;
 
 
 public:
@@ -55,11 +55,13 @@ public:
     ~Word_n  ();
 
 
-    // Unitary word setter and getter
+    // Setter and getter
     void            reset();
-    void            setData(std::string data);
-    void            setBloc(const Word_n_unitary unitary_word, long unsigned int index) {this->data[index] = unitary_word;}
-    Word_n_unitary  getBloc(long unsigned int index) const                              {return this->data[index];}
+    void            setData     (std::string data);
+    void            setBloc     (const Word_n_unitary unitary_word, int index)          {this->data[index] = unitary_word;}
+    Word_n_unitary  getBloc     (int index)                                     const   {return this->data[index];}
+    int             dataSize    ()                                                      {return this->data.size();}
+    int             binarySize  ()                                                      {return this->data.size() * 32;}
 
 
     // Fill a random value in the word

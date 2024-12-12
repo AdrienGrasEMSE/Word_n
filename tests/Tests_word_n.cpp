@@ -31,13 +31,14 @@ int main() {
 
     // Test start
     std::cout << "Test(Word_n) : START" << std::endl;
+    std::cout << "\n\n" << std::endl;
 
 
     // Display test
-    Word_n<8> word;
-    std::cout << "Test(Word_n_unitary) : Cout               -> \n" << word << std::endl;
+    Word_n<7> word;
+    std::cout << "Test(Word_n) : Cout               -> \n" << word << std::endl;
     std::cout << "\n\n" << std::endl;
-    std::cout << "Test(Word_n_unitary) : DISPLAY            -> \n";
+    std::cout << "Test(Word_n) : DISPLAY            -> \n";
     word.display();
     std::cout << "\n\n" << std::endl;
 
@@ -49,9 +50,39 @@ int main() {
     std::cout << "\n\n" << std::endl;
 
 
+    // Data size test
+    if (word.dataSize() != 4) {
+        test += 1;
+        std::cout << "Test(Word_n) : DATA SIZE          -> FAILED";
+    } else {
+        std::cout << "Test(Word_n) : DATA SIZE          -> PASSED\n";
+    }
+
+
+    // Binary size test
+    if (word.binarySize() != 128) {
+        test += 1;
+        std::cout << "Test(Word_n) : BINARY SIZE          -> FAILED {=" << word.binarySize() << "}\n";
+    } else {
+        std::cout << "Test(Word_n) : BINARY SIZE          -> PASSED\n";
+    }
+
+
     // Reset test
     word.reset();
-    
+    int reset = 0;
+    for (int i = 0; i < word.dataSize(); i ++) {
+        if (word.getBloc(i) != 0x0) {
+            reset = 1;
+            break;
+        }
+    }
+    if (reset != 0) {
+        test += 1;
+        std::cout << "Test(Word_n) : RESET          -> FAILED\n";
+    } else {
+        std::cout << "Test(Word_n) : RESET          -> PASSED\n";
+    }
 
 
     // String setter test
@@ -105,6 +136,7 @@ int main() {
 
 
     // Program end
+    std::cout << "\n\n" << std::endl;
     if (test == 0) {
         std::cout << "Test(Word_n) : PASSED" << std::endl;
         return 0;

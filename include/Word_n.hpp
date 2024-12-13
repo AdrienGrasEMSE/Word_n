@@ -229,7 +229,7 @@ void Word_n<n>::display() const {
     for (int i = this->data.size() - 1; i != -1; i--) {
 
         // Display the data
-        std::cout << "Bloc : " << std::setw(4) << std::setfill(' ') << i << " - ";
+        std::cout << std::setw(4) << std::setfill(' ') << i << " - ";
         this->data[i].display(false);
 
 
@@ -367,24 +367,7 @@ bool Word_n<n>::operator==(std::string data)          const {
 
 
     // Return the comparaison
-    return this == word_n_2;
-
-}
-
-
-/**
- * Internal data comparaison with a string
- */
-template <int n>
-bool Word_n<n>::operator!=(std::string data)          const {
-
-    // Putting the string data into an actual word_
-    Word_n<n> word_n_2;
-    word_n_2 = data;
-
-
-    // Return the comparaison
-    return this != word_n_2;
+    return (*this == word_n_2);
 
 }
 
@@ -419,6 +402,23 @@ bool Word_n<n>::operator!=(const Word_n<m>& word_n_2) const {
 
 
 /**
+ * Internal data comparaison with a string
+ */
+template <int n>
+bool Word_n<n>::operator!=(std::string data)          const {
+
+    // Putting the string data into an actual word_
+    Word_n<n> word_n_2;
+    word_n_2 = data;
+
+
+    // Return the comparaison
+    return (*this != word_n_2);
+
+}
+
+
+/**
  * Overriding Cout :
  * 
  * Display only the usable data (each 32bit long lower part of all word units)
@@ -430,7 +430,7 @@ std::ostream& operator<<(std::ostream& os, const Word_n<m>& word) {
     for (int i = word.data.size() - 1; i != -1; i--) {
 
         // Display the data
-        os << "Bloc : " << std::setw(4) << std::setfill(' ') << i << " - " << std::hex << word.data[i];
+        os << std::setw(4) << std::setfill(' ') << i << " - " << std::hex << word.data[i];
 
 
         // Spacing

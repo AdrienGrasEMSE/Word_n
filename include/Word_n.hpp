@@ -69,7 +69,7 @@ public:
 
 
     // Display
-    void            display() const;
+    void            display(bool string_shape = false) const;
 
 
     // Overriding operators
@@ -223,23 +223,46 @@ void Word_n<n>::randomize() {
  * Display : Display the whole word (with the hidden part of all word units)
  */
 template <int n>
-void Word_n<n>::display() const {
+void Word_n<n>::display(bool string_shape) const {
 
     // Running through every word units
     for (int i = this->data.size() - 1; i != -1; i--) {
 
-        // Display the data
-        std::cout << std::setw(4) << std::setfill(' ') << i << " - ";
-        this->data[i].display(false);
+        // Display with the selected shape
+        if (string_shape) {
+
+            // If it is the first bloc to be printed
+            if (i == this->data.size() - 1) {
+                std::cout << "0x";
+            }
 
 
-        // Spacing
-        if ((i % 4) == 0) {
-            std::cout << std::endl;
+            // Printing the word unit
+            std::cout << this->data[i];
+
+
         } else {
-            std::cout << "        ";
+
+            // Display the data
+            std::cout << std::setw(4) << std::setfill(' ') << i << " - ";
+            this->data[i].display(false);
+
+
+            // Spacing
+            if ((i % 4) == 0) {
+                std::cout << std::endl;
+            } else {
+                std::cout << "        ";
+            }
+
         }
 
+    }
+
+
+    // Last spacing
+    if (string_shape) {
+        std::cout << std::endl;
     }
 
 }
@@ -306,6 +329,95 @@ Word_n<n+1> Word_n<n>::operator+(const Word_n<m>& word_n_2) const {
 
     // Retunring the sum
     return sum;
+
+}
+
+
+/**
+ * Overriding the substratcion : not implemented yet
+ * 
+ */
+template <int n>
+template <int m>
+Word_n<n> Word_n<n>::operator-(const Word_n<m>& word_n_2) const {
+
+    /**
+     * n and m verification :
+     * 
+     * -> n and m must be equal.
+     */
+    static_assert(n == m, "The rank of the two operand must be equal.");
+
+
+    // Sum creation
+    Word_n<n> substraction;
+
+
+    // Retunring the sum
+    return *this;
+
+}
+
+
+/**
+ * Overriding the multiplication :
+ * 
+ * 
+ * 
+ */
+template <int n>
+template <int m>
+Word_n<n+1> Word_n<n>::operator*(const Word_n<m>& word_n_2) const {
+
+    /**
+     * n and m verification :
+     * 
+     * -> n and m must be equal.
+     * -> n and m respect the instanication rules, so therefore the result wich is 2*n
+     * and so n = m < 16.
+     */
+    static_assert(n == m, "The rank of the two operand must be equal.");
+    static_assert(n < 16, "The rank of the two operand must be lower than 16.");
+
+
+    // Product creation
+    Word_n<n+1> product;
+
+
+    // Main vars
+    unsigned int kmax   = product.dataSize();
+    unsigned int limit  = kmax / 2;
+
+
+    // Getting all word units to multiply
+    for (unsigned int k = 0; k < kmax; k++) {
+
+        // Generating (i, j) pairs for this round
+        for (unsigned int i = 0; i < limit; i++) {
+            unsigned int j = k - i;
+
+            // Verifying if j is in the limit
+            if (j <= limit) {
+                
+                // Making the multiplication on word units
+                product.setBloc(product.getBloc(k) + this->getBloc(i) * word_n_2.getBloc(j), k);
+
+            }
+
+        }
+
+
+        // Carry propagation
+        if ((k + 1) < kmax) {
+            product.setBloc(product.getBloc(k).getCarry(), k + 1);
+            product.getBloc(k).resetCarry();
+        }
+
+    }
+
+
+    // Retunring the product
+    return product;
 
 }
 

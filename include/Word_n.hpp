@@ -238,7 +238,8 @@ void Word_n<n>::display(bool string_shape) const {
 
 
             // Printing the word unit
-            std::cout << this->data[i];
+            this->data[i].display(true);
+            std::cout << " ";
 
 
         } else {
@@ -397,8 +398,8 @@ Word_n<n+1> Word_n<n>::operator*(const Word_n<m>& word_n_2) const {
             unsigned int j = k - i;
 
             // Verifying if j is in the limit
-            if (j <= limit) {
-                
+            if (j < limit) {
+
                 // Making the multiplication on word units
                 product.setBloc(product.getBloc(k) + this->getBloc(i) * word_n_2.getBloc(j), k);
 

@@ -45,7 +45,7 @@ int main() {
 
     // Randomizer test
     word.randomize();
-    std::cout << "Test(Word_n_unitary) : RANDOMIZE -> \n";
+    std::cout << "Test(Word_n) : RANDOMIZE -> \n";
     word.display();
     std::cout << "\n\n" << std::endl;
 
@@ -351,10 +351,6 @@ int test_Word_n_multiplication() {
     word_n_3 = word_n_1 * word_n_2;
 
 
-    word_n_3.display(true);
-    std::cout << "0x2E188743 85FEF33B 818914AC A75A77A0 4F8A84B6 40BB74D8 AA831B2B 951A0403 F4F3C6C6 E05DEA94 EF135ACA 0DE443E9 4C6E500C 9A3C812B 3D25285D 8D9F212F" << std::endl;
-
-
     // Test + reset
     if (word_n_3 != "0x2E188743 85FEF33B 818914AC A75A77A0 4F8A84B6 40BB74D8 AA831B2B 951A0403 F4F3C6C6 E05DEA94 EF135ACA 0DE443E9 4C6E500C 9A3C812B 3D25285D 8D9F212F") {return 1;}
     word_n_3.setData("0x0");
@@ -362,42 +358,42 @@ int test_Word_n_multiplication() {
 
 
 
-    // /**
-    //  * Calculation 2 :
-    //  * 
-    //  * A = 0xE0F017AE
-    //  * B = 0x878B3C5E
-    //  * 
-    //  * C = A * B = 0x7718F3E4 7B2F79E4
-    //  */
-    // word_n_1.setData(0xE0F017AE);
-    // word_n_2.setData(0x878B3C5E);
-    // word_n_3 = word_n_1 * word_n_2;
+    /**
+     * Calculation 2 :
+     * 
+     * A = 0x3993840D 33716675 585F7949 D3FCF699 8514D7B2 4E7ADB9F 6322B260 7DBCF948
+     * B = 0x9965D1B2 2E363CCE 8332A437 884276EA D4E97934 B0550770 4D568B94 4CE43894
+     * 
+     * C = A * B = 0x22801048 7EB95EAC 26CC6D39 93F664F4 EDB41A27 0C55F476 93E0604C B956E604 2EAF7C20 DB8F65F4 3239C1B1 FC6FBA5C 9741568E B6000DB5 1D228739 6BE7DDA0
+     */
+    word_n_1 = "0x3993840D 33716675 585F7949 D3FCF699 8514D7B2 4E7ADB9F 6322B260 7DBCF948";
+    word_n_2 = "0x9965D1B2 2E363CCE 8332A437 884276EA D4E97934 B0550770 4D568B94 4CE43894";
+    word_n_3 = word_n_1 * word_n_2;
 
 
-    // // Test + reset
-    // if (word_n_3 != 0x7718F3E47B2F79E4) {return 1;}
-    // word_n_3.setData(0x0);
+    // Test + reset
+    if (word_n_3 != "0x22801048 7EB95EAC 26CC6D39 93F664F4 EDB41A27 0C55F476 93E0604C B956E604 2EAF7C20 DB8F65F4 3239C1B1 FC6FBA5C 9741568E B6000DB5 1D228739 6BE7DDA0") {return 1;}
+    word_n_3.setData("0x0");
 
 
 
 
-    // /**
-    //  * Calculation 3 :
-    //  * 
-    //  * A = 0x79FAAA1A
-    //  * B = 0xD5B183E6
-    //  * 
-    //  * C = A + B = 0x65D224B0 1A3A215C
-    //  */
-    // word_n_1.setData(0x79FAAA1A);
-    // word_n_2.setData(0xD5B183E6);
-    // word_n_3 = word_n_1 * word_n_2;
+    /**
+     * Calculation 3 :
+     * 
+     * A = 0x1F3E2484 F66FDEFC 351D21DD FABECA01 81FC891E BCC4C858 8B9E478F C8A5C4CB
+     * B = 0x9A058764 CC8C258C 092C6414 B0F1219D 85C7BFC8 98B78AF5 49E29C30 89654447
+     * 
+     * C = A * B = 0x12CC0EB4 C5571DE3 54A45FD9 EB4DD923 401D1FC3 D3A605EE 5096F47B DAA51803 D60C8A3A 571C5E07 23A7D1B2 125171DF 72ADF20B 73B9145A 333983F3 F556804D
+     */
+    word_n_1 = "0x1F3E2484 F66FDEFC 351D21DD FABECA01 81FC891E BCC4C858 8B9E478F C8A5C4CB";
+    word_n_2 = "0x9A058764 CC8C258C 092C6414 B0F1219D 85C7BFC8 98B78AF5 49E29C30 89654447";
+    word_n_3 = word_n_1 * word_n_2;
 
 
-    // // Test + reset
-    // if (word_n_3 != 0x65D224B01A3A215C) {return 1;}
-    // word_n_3.setData(0x0);
+    // Test + reset
+    if (word_n_3 != "0x12CC0EB4 C5571DE3 54A45FD9 EB4DD923 401D1FC3 D3A605EE 5096F47B DAA51803 D60C8A3A 571C5E07 23A7D1B2 125171DF 72ADF20B 73B9145A 333983F3 F556804D") {return 1;}
+    word_n_3.setData("0x0");
 
 
 

@@ -72,6 +72,10 @@ public:
     void            display(bool string_shape = false) const;
 
 
+    // Modular calculation
+    // TODO : need substraction, which need comparators
+
+
     // Overriding operators
     template<int m>
     Word_n<n+1>     operator+   (const Word_n<m>& word_n_2) const;
@@ -83,11 +87,26 @@ public:
     Word_n<n+1>     operator*   (const Word_n<m>& word_n_2) const;
     Word_n<n>&      operator=   (std::string data);
 
+
+    // Overriding comparators
     template<int m>
     bool            operator==  (const Word_n<m>& word_n_2) const;
 
     template<int m>
     bool            operator!=  (const Word_n<m>& word_n_2) const;
+
+    template<int m>
+    bool            operator>=  (const Word_n<m>& word_n_2) const;
+
+    template<int m>
+    bool            operator>   (const Word_n<m>& word_n_2) const;
+
+    template<int m>
+    bool            operator<=  (const Word_n<m>& word_n_2) const;
+
+    template<int m>
+    bool            operator<   (const Word_n<m>& word_n_2) const;
+    
     bool            operator==  (std::string data)          const;
     bool            operator!=  (std::string data)          const;
 
@@ -346,6 +365,7 @@ Word_n<n> Word_n<n>::operator-(const Word_n<m>& word_n_2) const {
      * n and m verification :
      * 
      * -> n and m must be equal.
+     * -> A - B > 0, then A > B
      */
     static_assert(n == m, "The rank of the two operand must be equal.");
 
@@ -469,23 +489,6 @@ bool Word_n<n>::operator==(const Word_n<m>& word_n_2) const {
 
 
 /**
- * Internal data comparaison with a string
- */
-template <int n>
-bool Word_n<n>::operator==(std::string data)          const {
-
-    // Putting the string data into an actual word_
-    Word_n<n> word_n_2;
-    word_n_2 = data;
-
-
-    // Return the comparaison
-    return (*this == word_n_2);
-
-}
-
-
-/**
  * Internal data comparaison with another word_n
  */
 template <int n>
@@ -515,10 +518,143 @@ bool Word_n<n>::operator!=(const Word_n<m>& word_n_2) const {
 
 
 /**
+ * Internal data comparaison with another word_n
+ */
+template <int n>
+template <int m>
+bool Word_n<n>::operator>=(const Word_n<m>& word_n_2) const {
+
+    /**
+     * n and m verification :
+     * 
+     * -> n and m must be equal.
+     */
+    static_assert(n == m, "The rank of the two operand must be equal.");
+
+
+    // Running through the data
+    for (int i = 0; i < this->data.size(); i++) {
+
+        // Word unit comparaison
+        if (this->data[i] < word_n_2.getBloc(i)) {
+            return false;
+        }
+
+    }
+    return true;
+
+}
+
+
+/**
+ * Internal data comparaison with another word_n
+ */
+template <int n>
+template <int m>
+bool Word_n<n>::operator>(const Word_n<m>& word_n_2) const {
+
+    /**
+     * n and m verification :
+     * 
+     * -> n and m must be equal.
+     */
+    static_assert(n == m, "The rank of the two operand must be equal.");
+
+
+    // Running through the data
+    for (int i = 0; i < this->data.size(); i++) {
+
+        // Word unit comparaison
+        if (this->data[i] <= word_n_2.getBloc(i)) {
+            return false;
+        }
+
+    }
+    return true;
+
+}
+
+
+/**
+ * Internal data comparaison with another word_n
+ */
+template <int n>
+template <int m>
+bool Word_n<n>::operator<=(const Word_n<m>& word_n_2) const {
+
+    /**
+     * n and m verification :
+     * 
+     * -> n and m must be equal.
+     */
+    static_assert(n == m, "The rank of the two operand must be equal.");
+
+
+    // Running through the data
+    for (int i = 0; i < this->data.size(); i++) {
+
+        // Word unit comparaison
+        if (this->data[i] > word_n_2.getBloc(i)) {
+            return false;
+        }
+
+    }
+    return true;
+
+}
+
+
+/**
+ * Internal data comparaison with another word_n
+ */
+template <int n>
+template <int m>
+bool Word_n<n>::operator<(const Word_n<m>& word_n_2) const {
+
+    /**
+     * n and m verification :
+     * 
+     * -> n and m must be equal.
+     */
+    static_assert(n == m, "The rank of the two operand must be equal.");
+
+
+    // Running through the data
+    for (int i = 0; i < this->data.size(); i++) {
+
+        // Word unit comparaison
+        if (this->data[i] >= word_n_2.getBloc(i)) {
+            return false;
+        }
+
+    }
+    return true;
+
+}
+
+
+/**
  * Internal data comparaison with a string
  */
 template <int n>
-bool Word_n<n>::operator!=(std::string data)          const {
+bool Word_n<n>::operator==(std::string data) const {
+
+    // Putting the string data into an actual word_
+    Word_n<n> word_n_2;
+    word_n_2 = data;
+
+
+    // Return the comparaison
+    return (*this == word_n_2);
+
+}
+
+
+/**
+ * Internal data comparaison with a string
+ */
+template <int n>
+bool Word_n<n>::operator!=(std::string data) const {
 
     // Putting the string data into an actual word_
     Word_n<n> word_n_2;

@@ -13,6 +13,7 @@
 
 
 // Signatures
+int test_Word_n_comparator();
 int test_Word_n_addition();
 int test_Word_n_substraction();
 int test_Word_n_multiplication();
@@ -53,18 +54,18 @@ int main() {
     // Data size test
     if (word.dataSize() != 4) {
         test += 1;
-        std::cout << "Test(Word_n) : DATA SIZE          -> FAILED";
+        std::cout << "Test(Word_n) : DATA SIZE                 -> FAILED";
     } else {
-        std::cout << "Test(Word_n) : DATA SIZE          -> PASSED\n";
+        std::cout << "Test(Word_n) : DATA SIZE                 -> PASSED\n";
     }
 
 
     // Binary size test
     if (word.binarySize() != 128) {
         test += 1;
-        std::cout << "Test(Word_n) : BINARY SIZE          -> FAILED {=" << word.binarySize() << "}\n";
+        std::cout << "Test(Word_n) : BINARY SIZE               -> FAILED {=" << word.binarySize() << "}\n";
     } else {
-        std::cout << "Test(Word_n) : BINARY SIZE          -> PASSED\n";
+        std::cout << "Test(Word_n) : BINARY SIZE               -> PASSED\n";
     }
 
 
@@ -79,9 +80,9 @@ int main() {
     }
     if (reset != 0) {
         test += 1;
-        std::cout << "Test(Word_n) : RESET          -> FAILED\n";
+        std::cout << "Test(Word_n) : RESET                     -> FAILED\n";
     } else {
-        std::cout << "Test(Word_n) : RESET          -> PASSED\n";
+        std::cout << "Test(Word_n) : RESET                     -> PASSED\n";
     }
 
 
@@ -89,9 +90,9 @@ int main() {
     word.setData("0xF8E0CB F98A87BC 3741903B 75438F48");
     if (word.getBloc(3) != 0x00F8E0CB || word.getBloc(2) != 0xF98A87BC || word.getBloc(1) != 0x3741903B || word.getBloc(0) != 0x75438F48) {
         test += 1;
-        std::cout << "Test(Word_n) : STRING SETTER -> FAILED" << std::endl;
+        std::cout << "Test(Word_n) : STRING SETTER             -> FAILED" << std::endl;
     } else {
-        std::cout << "Test(Word_n) : STRING SETTER -> PASSED" << std::endl;
+        std::cout << "Test(Word_n) : STRING SETTER             -> PASSED" << std::endl;
     }
 
 
@@ -99,38 +100,28 @@ int main() {
     word = "0xF8E0CB F98A87BC 3741903B 75438F48";
     if (word.getBloc(3) != 0x00F8E0CB || word.getBloc(2) != 0xF98A87BC || word.getBloc(1) != 0x3741903B || word.getBloc(0) != 0x75438F48) {
         test += 1;
-        std::cout << "Test(Word_n) : OP (VAR = STRING) -> FAILED" << std::endl;
+        std::cout << "Test(Word_n) : OP (VAR = STRING)         -> FAILED" << std::endl;
     } else {
-        std::cout << "Test(Word_n) : OP (VAR = STRING) -> PASSED" << std::endl;
+        std::cout << "Test(Word_n) : OP (VAR = STRING)         -> PASSED" << std::endl;
     }
 
 
-    // Data comparaison with another word
-    Word_n<7> word_2;
-    word_2 = "0xF8E0CB F98A87BC 3741903B 75438F48";
-    if ((word == word_2) != true) {
-        test += 1;
-        std::cout << "Test(Word_n) : OP (VAR1 == VAR2) -> FAILED" << std::endl;
+    // Comparators
+    int comparator = test_Word_n_addition();
+    if (comparator == 1) {
+        std::cout << "Test(Word_n) : COMPARATOR                -> FAILED" << std::endl;
     } else {
-        std::cout << "Test(Word_n) : OP (VAR1 == VAR2) -> PASSED" << std::endl;
+        std::cout << "Test(Word_n) : COMPARATOR                -> PASSED" << std::endl;
     }
-
-
-    // Data comparaison with a string
-    if ((word == "0xF8E0CB F98A87BC 3741903B 75438F48") != true) {
-        test += 1;
-        std::cout << "Test(Word_n) : OP (VAR == STRING) -> FAILED" << std::endl;
-    } else {
-        std::cout << "Test(Word_n) : OP (VAR == STRING) -> PASSED" << std::endl;
-    }
+    test += comparator;
 
 
     // Addition
     int addition = test_Word_n_addition();
     if (addition == 1) {
-        std::cout << "Test(Word_n) : ADDITION -> FAILED" << std::endl;
+        std::cout << "Test(Word_n) : ADDITION                  -> FAILED" << std::endl;
     } else {
-        std::cout << "Test(Word_n) : ADDITION -> PASSED" << std::endl;
+        std::cout << "Test(Word_n) : ADDITION                  -> PASSED" << std::endl;
     }
     test += addition;
 
@@ -138,9 +129,9 @@ int main() {
     // Substraction
     int substaction = test_Word_n_substraction();
     if (substaction == 1) {
-        std::cout << "Test(Word_n) : SUBSTRACTION -> FAILED" << std::endl;
+        std::cout << "Test(Word_n) : SUBSTRACTION              -> FAILED" << std::endl;
     } else {
-        std::cout << "Test(Word_n) : SUBSTRACTION -> PASSED" << std::endl;
+        std::cout << "Test(Word_n) : SUBSTRACTION              -> PASSED" << std::endl;
     }
     test += substaction;
 
@@ -148,9 +139,9 @@ int main() {
     // Addition
     int multiplication = test_Word_n_multiplication();
     if (multiplication == 1) {
-        std::cout << "Test(Word_n) : MULTIPLICATION -> FAILED" << std::endl;
+        std::cout << "Test(Word_n) : MULTIPLICATION            -> FAILED" << std::endl;
     } else {
-        std::cout << "Test(Word_n) : MULTIPLICATION -> PASSED" << std::endl;
+        std::cout << "Test(Word_n) : MULTIPLICATION            -> PASSED" << std::endl;
     }
     test += multiplication;
 
@@ -163,6 +154,85 @@ int main() {
     }
     std::cout << "Test(Word_n) : FAILED" << std::endl;
     return 1;
+
+}
+
+
+
+
+/**
+ * Comparator tests
+ */
+int test_Word_n_comparator() {
+
+    // Test variables
+    Word_n<8> word_n_1;
+    Word_n<8> word_n_2;
+
+
+
+
+    /**
+     * Equality test between one word_n and a string
+     */
+    word_n_1 = "0x61E6F2B3 8959347E 6977D9B4 9F5B3B61 E403EF5B 8E595957 4F4B29D2 9543AA3B";
+    if ((word_n_1 == "0x61E6F2B3 8959347E 6977D9B4 9F5B3B61 E403EF5B 8E595957 4F4B29D2 9543AA3B") != true) {
+        return 1;
+    }
+    if ((word_n_1 == "0xAD7F3F6F 5CDFB656 AF10103C 7DFE9C43 2B2D2703 F6C9CC17 32E1466D 04B5D524") != true) {
+        return 1;
+    }
+
+
+
+
+    /**
+     * Equality test between two word_n
+     */
+    word_n_2 = "0x61E6F2B3 8959347E 6977D9B4 9F5B3B61 E403EF5B 8E595957 4F4B29D2 9543AA3B";
+    if ((word_n_1 == word_n_2) != true) {
+        return 1;
+    }
+    word_n_2 = "0xAD7F3F6F 5CDFB656 AF10103C 7DFE9C43 2B2D2703 F6C9CC17 32E1466D 04B5D524";
+    if ((word_n_1 != word_n_2) != true) {
+        return 1;
+    }
+
+
+
+
+    /**
+     * Differential test between two word_n_unitary
+     */
+    word_n_1 = "0xAD7F3F6F 5CDFB656 AF10103C 7DFE9C43 2B2D2703 F6C9CC17 32E1466D 04B5D524";
+    word_n_2 = "0xAD7F3F6F 5CDFB656 AF10103C 7DFE9C43 2B2D2703 F6C9CC17 32E1466D 04B5D524";
+    if ((word_n_1 >= word_n_2) != true) {
+        return 1;
+    }
+    if ((word_n_1 <= word_n_2) != true) {
+        return 1;
+    }
+    word_n_2 = "0x61E6F2B3 8959347E 6977D9B4 9F5B3B61 E403EF5B 8E595957 4F4B29D2 9543AA3B";
+    if ((word_n_1 >= word_n_2) != true) {
+        return 1;
+    }
+    if ((word_n_1 > word_n_2) != true) {
+        return 1;
+    }
+    word_n_1 = "0x61E6F2B3 8959347E 6977D9B4 9F5B3B61 E403EF5B 8E595957 4F4B29D2 9543AA3B";
+    word_n_2 = "0xAD7F3F6F 5CDFB656 AF10103C 7DFE9C43 2B2D2703 F6C9CC17 32E1466D 04B5D524";
+    if ((word_n_1 <= word_n_2) != true) {
+        return 1;
+    }
+    if ((word_n_1 < word_n_2) != true) {
+        return 1;
+    }
+
+
+
+
+    // End of the test
+    return 0;
 
 }
 

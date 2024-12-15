@@ -334,7 +334,7 @@ Word_n<n+1> Word_n<n>::operator+(const Word_n<m>& word_n_2) const {
 
 
     // Running through every word units
-    for (int i = 0; i != this->data.size(); i++) {
+    for (int i = 0; i < this->data.size(); i++) {
 
         // Adding up word units
         sum.setBloc(this->data[i] + word_n_2.getBloc(i), i);
@@ -347,7 +347,7 @@ Word_n<n+1> Word_n<n>::operator+(const Word_n<m>& word_n_2) const {
     }
 
 
-    // Retunring the sum
+    // Returning the sum
     return sum;
 
 }
@@ -370,12 +370,50 @@ Word_n<n> Word_n<n>::operator-(const Word_n<m>& word_n_2) const {
     static_assert(n == m, "The rank of the two operand must be equal.");
 
 
-    // Sum creation
+    // Substraction creation
     Word_n<n> substraction;
 
 
-    // Retunring the sum
-    return *this;
+    // Borrow
+    uint32_t borrow = 0;
+
+
+    // Running through all word_units
+    for (int i = 0; i < this->data.size(); i++) {
+
+        // Substraction calculation
+        uint64_t diff = static_cast<uint64_t>(this->data[i].getData()) - 
+                        static_cast<uint64_t>(word_n_2.getBloc(i).getData()) -
+                        static_cast<uint64_t>(borrow);
+
+
+        // In cas of underflow
+        if (diff > 0xFFFFFFFF) {
+
+            // Activating borrow
+            borrow = 1;
+
+
+            // To correct underflow
+            diff += 0x100000000;
+
+
+        } else {
+
+            // De-activating borrow
+            borrow = 0;
+
+        }
+
+
+        // Saving the substraction
+        substraction.setBloc(static_cast<uint32_t>(diff), i);
+
+    }
+
+
+    // Returning the substraction
+    return substraction;
 
 }
 
@@ -437,7 +475,7 @@ Word_n<n+1> Word_n<n>::operator*(const Word_n<m>& word_n_2) const {
     }
 
 
-    // Retunring the product
+    // Returning the product
     return product;
 
 }
@@ -453,7 +491,7 @@ Word_n<n>& Word_n<n>::operator=(std::string data) {
     this->setData(data);    
 
 
-    // Retunring itslef
+    // Returning itslef
     return *this;
 
 }

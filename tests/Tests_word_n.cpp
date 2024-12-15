@@ -323,68 +323,68 @@ int test_Word_n_addition() {
  */
 int test_Word_n_substraction() {
 
-    // // Test variables
-    // Word_n word_n_1 = Word_n();
-    // Word_n word_n_2 = Word_n();
-    // Word_n word_n_3 = Word_n();
+    // Test variables
+    Word_n<8> word_n_1;
+    Word_n<8> word_n_2;
+    Word_n<8> word_n_3;
 
 
-    // /**
-    //  * Calculation 1 :
-    //  * 
-    //  * A = 0x94349C86
-    //  * B = 0x62E95794
-    //  * 
-    //  * C = A - B = 0x314B44F2
-    //  */
-    // word_n_1.setData(0x94349C86);
-    // word_n_2.setData(0x62E95794);
-    // word_n_3 = word_n_1 - word_n_2;
+    /**
+     * Calculation 1 :
+     * 
+     * A = 0x7C47230A AFC0761D C5A4F9EA 06564647 5DDB6827 9B666E95 017B3963 FF7E2A74
+     * B = 0x770A28A6 1EF7E4BB 16E88202 33AC0320 7904EFD2 E04006C1 02D2FDDE FF2D7B62
+     * 
+     * C = A - B = 0x053CFA64 90C89162 AEBC77E7 D2AA4326 E4D67854 BB2667D3 FEA83B85 0050AF12
+     */
+    word_n_1 = "0x7C47230A AFC0761D C5A4F9EA 06564647 5DDB6827 9B666E95 017B3963 FF7E2A74";
+    word_n_2 = "0x770A28A6 1EF7E4BB 16E88202 33AC0320 7904EFD2 E04006C1 02D2FDDE FF2D7B62";
+    word_n_3 = word_n_1 - word_n_2;
 
 
-    // // Test + reset
-    // if (word_n_3 != 0x314B44F2) {return 1;}
-    // word_n_3.setData(0x0);
-
-
-
-
-    // /**
-    //  * Calculation 2 :
-    //  * 
-    //  * A = 0xBF6E8AF5
-    //  * B = 0x5902142E
-    //  * 
-    //  * C = A - B = 0x666C76C7
-    //  */
-    // word_n_1.setData(0xBF6E8AF5);
-    // word_n_2.setData(0x5902142E);
-    // word_n_3 = word_n_1 - word_n_2;
-
-
-    // // Test + reset
-    // if (word_n_3 != 0x666C76C7) {return 1;}
-    // word_n_3.setData(0x0);
+    // Test + reset
+    if (word_n_3 != "0x053CFA64 90C89162 AEBC77E7 D2AA4326 E4D67854 BB2667D3 FEA83B85 0050AF12") {return 1;}
+    word_n_3.setData("0x0");
 
 
 
 
-    // /**
-    //  * Calculation 3 :
-    //  * 
-    //  * A = 0x9284A957
-    //  * B = 0x51D30D2A
-    //  * 
-    //  * C = A - B = 0x40B19C2D
-    //  */
-    // word_n_1.setData(0x9284A957);
-    // word_n_2.setData(0x51D30D2A);
-    // word_n_3 = word_n_1 - word_n_2;
+    /**
+     * Calculation 2 :
+     * 
+     * A = 0x22D902CF F3EC9A53 5C079453 00FF4E2B 360241A9 FE06B55C 791E143E 8A98FBA4
+     * B = 0x0D438A4F CABF8E2A F69D5033 8653C2EE C02A7543 28DFF42A B6AF0C1A BCCC5C6C
+     * 
+     * C = A + B = 0x15957880 292D0C28 656A441F 7AAB8B3C 75D7CC66 D526C131 C26F0823 CDCC9F38
+     */
+    word_n_1 = "0x22D902CF F3EC9A53 5C079453 00FF4E2B 360241A9 FE06B55C 791E143E 8A98FBA4";
+    word_n_2 = "0x0D438A4F CABF8E2A F69D5033 8653C2EE C02A7543 28DFF42A B6AF0C1A BCCC5C6C";
+    word_n_3 = word_n_1 - word_n_2;
 
 
-    // // Test + reset
-    // if (word_n_3 != 0x40B19C2D) {return 1;}
-    // word_n_3.setData(0x0);
+    // Test + reset
+    if (word_n_3 != "0x15957880 292D0C28 656A441F 7AAB8B3C 75D7CC66 D526C131 C26F0823 CDCC9F38") {return 1;}
+    word_n_3.setData("0x0");
+
+
+
+
+    /**
+     * Calculation 3 :
+     * 
+     * A = 0x8464EED0 464B4E87 EC0413C7 905EF760 45FE01D0 6AF5F53F 7D309958 260184F9
+     * B = 0x1AAAC750 13BEDF64 85E8355F FE9C5D33 C342A880 EE38350C 01F0B92A 2A10261C
+     * 
+     * C = A + B = 0x9DF9B1F1
+     */
+    word_n_1 = "0x8464EED0 464B4E87 EC0413C7 905EF760 45FE01D0 6AF5F53F 7D309958 260184F9";
+    word_n_2 = "0x1AAAC750 13BEDF64 85E8355F FE9C5D33 C342A880 EE38350C 01F0B92A 2A10261C";
+    word_n_3 = word_n_1 - word_n_2;
+
+
+    // Test + reset
+    if (word_n_3 != "0x69BA2780 328C6F23 661BDE67 91C29A2C 82BB594F 7CBDC033 7B3FE02D FBF15EDD") {return 1;}
+    word_n_3.setData("0x0");
 
 
 

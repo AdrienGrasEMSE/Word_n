@@ -72,8 +72,14 @@ public:
     void            display(bool string_shape = false) const;
 
 
+    // Word<n+1> and Word<n-1> cast
+    Word_n<n+1>     upSize()    const;
+    Word_n<n-1>     downSize()  const;
+
+
     // Modular calculation
-    // TODO : need substraction, which need comparators
+    template<int m, int l>
+    Word_n<n>       modularAdd  (const Word_n<m>& word_n_2, const Word_n<l>& module_) const;
 
 
     // Overriding operators
@@ -286,6 +292,132 @@ void Word_n<n>::display(bool string_shape) const {
     }
 
 }
+
+
+/**
+ * Word<n+1> cast
+ */
+template <int n>
+Word_n<n+1> Word_n<n>::upSize() const {
+
+    /**
+     * n verification :
+     * 
+     * -> because it generate a result with a rank n+1 which must respect n+1 < 17,
+     * n < 16
+     */
+    static_assert(n < 16, "The rank of the operand must be lower than 16.");
+
+
+    // Result generation
+    Word_n<n+1> result;
+
+
+    // Running through all data in the operand
+    for (int i = 0; i < this->data.size(); i++) {
+
+        // Copying data
+        result.setBloc(this->getBloc(i), i);
+
+    }
+
+
+    // Returning result
+    return result;
+
+}
+
+
+/**
+ * Word<n+1> cast
+ */
+template <int n>
+Word_n<n-1> Word_n<n>::downSize() const {
+
+    /**
+     * n verification :
+     * 
+     * -> because it generate a result with a rank n-1 which must respect n-1 > 5,
+     * n > 6
+     */
+    static_assert(n > 6, "The rank of the operand must be greater than 6.");
+
+
+    // Result generation
+    Word_n<n-1> result;
+
+
+    // Running through all data in the operand
+    for (int i = 0; i < result.dataSize(); i++) {
+
+        // Copying data
+        result.setBloc(this->getBloc(i), i);
+
+    }
+
+
+    // Returning result
+    return result;
+
+}
+
+
+
+/**
+ * ================================================================================================
+ * Modular operation
+ * ================================================================================================
+ */
+
+/**
+ * Modular addition
+ */
+template <int n>
+template <int m, int l>
+Word_n<n> Word_n<n>::modularAdd(const Word_n<m>& word_n_2, const Word_n<l>& module_) const {
+
+    /**
+     * Operand verification :
+     * 
+     * -> the rank of all 3 operand must be equal : n = m = l
+     * -> because there is a interlediary result, the same rules for size check is needed
+     * -> we considere that in A + B [N], A and B are already modulo N. And so, A and B are
+     * lower than N.
+     */
+    static_assert(n == m, "The rank of the three operand must be equal.");
+    static_assert(n < 16, "The rank of the two added operand must be lower than 16.");
+
+
+    // Verification
+    if (*this >= module_ || word_n_2 >= module_) {
+        throw std::out_of_range("The two added operand must be lower than the module.");
+    }
+
+
+    // Generating the result
+    Word_n<n+1> sum;
+
+
+    // Making the actual addition
+    sum = *this + word_n_2;
+
+
+    // Module comparaison
+    if (sum < module_.upSize()) {
+
+        // Returning the module
+        return sum.downSize();
+
+
+    } else {
+
+        // Returing the sum (downsized)
+        return (sum.downSize() - module_);
+
+    }
+
+}
+
 
 
 
@@ -570,13 +702,24 @@ bool Word_n<n>::operator>=(const Word_n<m>& word_n_2) const {
     static_assert(n == m, "The rank of the two operand must be equal.");
 
 
-    // Running through the data
-    for (int i = 0; i < this->data.size(); i++) {
+    // Running through the data, starting from the strongest digit
+    int i = this->data.size() - 1;
+    while (i != -1) {
 
-        // Word unit comparaison
+        // Stop condition : a pair of bloc does not respect the inequality
         if (this->data[i] < word_n_2.getBloc(i)) {
             return false;
         }
+
+
+        // Stop condition : a pair of bloc does force the inequality
+        if (this->data[i] > word_n_2.getBloc(i)) {
+            return true;
+        }
+
+
+        // Decrement
+        i --;
 
     }
     return true;
@@ -599,13 +742,30 @@ bool Word_n<n>::operator>(const Word_n<m>& word_n_2) const {
     static_assert(n == m, "The rank of the two operand must be equal.");
 
 
-    // Running through the data
-    for (int i = 0; i < this->data.size(); i++) {
+    // Avoiding an exception
+    if (*this == word_n_2) {
+        return false;
+    }
 
-        // Word unit comparaison
-        if (this->data[i] <= word_n_2.getBloc(i)) {
+
+    // Running through the data, starting from the strongest digit
+    int i = this->data.size() - 1;
+    while (i != -1) {
+
+        // Stop condition : a pair of bloc does not respect the inequality
+        if (this->data[i] < word_n_2.getBloc(i)) {
             return false;
         }
+
+
+        // Stop condition : a pair of bloc does force the inequality
+        if (this->data[i] > word_n_2.getBloc(i)) {
+            return true;
+        }
+
+
+        // Decrement
+        i --;
 
     }
     return true;
@@ -628,13 +788,24 @@ bool Word_n<n>::operator<=(const Word_n<m>& word_n_2) const {
     static_assert(n == m, "The rank of the two operand must be equal.");
 
 
-    // Running through the data
-    for (int i = 0; i < this->data.size(); i++) {
+    // Running through the data, starting from the strongest digit
+    int i = (this->data.size() - 1);
+    while (i != -1) {
 
-        // Word unit comparaison
-        if (this->data[i] > word_n_2.getBloc(i)) {
+        // Stop condition : a pair of bloc does not respect the inequality
+        if (i >= 0 && this->data[i] > word_n_2.getBloc(i)) {
             return false;
         }
+
+
+        // Stop condition : a pair of bloc does force the inequality
+        if (i >= 0 && this->data[i] < word_n_2.getBloc(i)) {
+            return true;
+        }
+
+
+        // Decrement
+        i --;
 
     }
     return true;
@@ -657,13 +828,30 @@ bool Word_n<n>::operator<(const Word_n<m>& word_n_2) const {
     static_assert(n == m, "The rank of the two operand must be equal.");
 
 
-    // Running through the data
-    for (int i = 0; i < this->data.size(); i++) {
+    // Avoiding an exception
+    if (*this == word_n_2) {
+        return false;
+    }
 
-        // Word unit comparaison
-        if (this->data[i] >= word_n_2.getBloc(i)) {
+
+    // Running through the data, starting from the strongest digit
+    int i = this->data.size() - 1;
+    while (i != -1) {
+
+        // Stop condition : a pair of bloc does not respect the inequality
+        if (this->data[i] > word_n_2.getBloc(i)) {
             return false;
         }
+
+
+        // Stop condition : a pair of bloc does force the inequality
+        if (this->data[i] < word_n_2.getBloc(i)) {
+            return true;
+        }
+
+
+        // Decrement
+        i --;
 
     }
     return true;

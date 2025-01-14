@@ -18,6 +18,7 @@ int test_Word_n_addition();
 int test_Word_n_substraction();
 int test_Word_n_multiplication();
 int test_Word_n_modular_addition();
+int test_Word_n_montgomery_multiplication();
 
 
 
@@ -147,7 +148,7 @@ int main() {
     test += multiplication;
 
 
-    // Addition
+    // Modular addition
     int modular_addition = test_Word_n_modular_addition();
     if (modular_addition == 1) {
         std::cout << "Test(Word_n) : MODULAR ADDITION          -> FAILED" << std::endl;
@@ -155,6 +156,15 @@ int main() {
         std::cout << "Test(Word_n) : MODULAR ADDITION          -> PASSED" << std::endl;
     }
     test += modular_addition;
+
+
+    // Montgommery Multiplication
+    int montgomery = test_Word_n_montgomery_multiplication();
+    if (montgomery == 1) {
+        std::cout << "Test(Word_n) : MONTGOMERY MULTIPLICATION -> FAILED" << std::endl;
+    } else {
+        std::cout << "Test(Word_n) : MONTGOMERY MULTIPLICATION -> PASSED" << std::endl;
+    }
 
 
     // Program end
@@ -581,4 +591,29 @@ int test_Word_n_modular_addition() {
     return 0;
 
 };
+
+
+
+
+/**
+ * Montgomery multiplication test
+ */
+int test_Word_n_montgomery_multiplication() {
+
+    // Test variables
+    Word_n<8> module_;
+    Word_n<8> word_n_1;
+    Word_n<8> word_n_2;
+    Word_n<8> word_n_3;
+    Word_n<9> r;
+    Word_n<8> r_;
+
+
+    word_n_3 = word_n_1.montgomery(word_n_2, module_, r, r_);
+
+
+    // End of test
+    return 0;
+
+}
 

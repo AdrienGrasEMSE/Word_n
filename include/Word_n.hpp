@@ -77,9 +77,24 @@ public:
     Word_n<n-1>     downSize()  const;
 
 
+    // Max-out value method
+    static Word_n   maxValue();
+
+
+    // Null value
+    static Word_n<n> nullValue();
+
+
     // Modular calculation
     template<int m, int l>
     Word_n<n>       modularAdd  (const Word_n<m>& word_n_2, const Word_n<l>& module_) const;
+
+    template<int rank_1, int rank_2, int rank_3, int rank_4>
+    Word_n<n>       montgomery  (   const Word_n<rank_1>& word_n_2,
+                                    const Word_n<rank_2>& module_,
+                                    const Word_n<rank_3>& r, 
+                                    const Word_n<rank_4>& r_
+                                ) const;
 
 
     // Overriding operators
@@ -362,6 +377,46 @@ Word_n<n-1> Word_n<n>::downSize() const {
 }
 
 
+/**
+ * Returning the maximum value possible
+ */
+template <int n>
+Word_n<n>  Word_n<n>::maxValue() {
+
+    // Generating the value
+    Word_n<n> max_val;
+
+
+    // Running through every word unit
+    for (int i = 0; i < max_val.dataSize(); i++) {
+
+        // Maximize data
+        max_val.getBloc(i).maxValue();
+
+    }
+
+
+    // Returning the value
+    return max_val;
+
+}
+
+
+/**
+ * Returning the maximum value possible
+ */
+template <int n>
+Word_n<n>  Word_n<n>::nullValue() {
+
+    // Generating the value
+    Word_n<n> null_val;
+
+
+    // Returning the value
+    return null_val;
+
+}
+
 
 /**
  * ================================================================================================
@@ -419,7 +474,81 @@ Word_n<n> Word_n<n>::modularAdd(const Word_n<m>& word_n_2, const Word_n<l>& modu
 }
 
 
+/**
+ * Modular multiplication
+ */
+template <int n>
+template<int rank_1, int rank_2, int rank_3, int rank_4>
+Word_n<n> Word_n<n>::montgomery(const Word_n<rank_1>& word_n_2,
+                                const Word_n<rank_2>& module_,
+                                const Word_n<rank_3>& r, 
+                                const Word_n<rank_4>& r_
+                                ) const {
 
+    /**
+     * Operand verification :
+     * 
+     * -> the rank of all operand must be equal except for the R which is the rank plus one.
+     * -> because there is a intermediary result, the same rules for size check is needed.
+     * -> we considere that in A * B [N], A and B are already modulo N. And so, A and B are
+     * lower than N.
+     */
+    static_assert(  n == rank_1 &&
+                    n == rank_2 &&
+                    n == (rank_3 - 1) &&
+                    n == rank_4, "The rank of all operand must be equal (except for the R).");
+    static_assert(n < 14, "The rank of the two multiplied operand must be lower than 14.");
+
+
+    // Verification
+    if (*this >= module_ || word_n_2 >= module_) {
+        throw std::out_of_range("The two operand multiplied must be lower than the module.");
+    }
+
+
+    // Division simplification verification
+
+
+    // Intermediate value
+    Word_n<n + 1>   _S_;
+    Word_n<n + 2>   _T_temporary;
+    Word_n<n + 1>   _T_;
+    Word_n<n + 3>   _M_;
+    Word_n<n + 1>   _U_;
+    Word_n<n>       product;
+
+
+    // S = A * B
+    _S_ = *this * word_n_2;
+
+
+    // T = S * R' [R]
+    _T_temporary = _S_ * r_.upSize();
+    _T_ = _T_temporary.downSize();      // TODO : EXPLAIN THIS SHIT
+
+
+    // M = S + T * N
+    _M_ = _S_.upSize() + (_T_ * module_.upSize());
+
+
+    // U = M / R
+    _U_ = _M_.downSize().downSize();
+
+
+    // Result calculation
+    if (_U_ > module_.upSize()) {
+        Word_n<n + 1>       product_temporary;
+        product_temporary   = _U_ - module_.upSize();
+        product             = product_temporary.downSize();
+    } else {
+        product             = _U_.downSize();
+    }
+
+
+    // Returning the result
+    return product;
+
+}
 
 
 /**

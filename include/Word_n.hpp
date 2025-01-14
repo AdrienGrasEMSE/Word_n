@@ -16,10 +16,10 @@
 /**
  * Class Word_n :
  * 
- * WARNING : n must be between 5 and 16...
+ * WARNING : n must be a multiple of 32
  * 
- * Class which store 2^n bit data, using n Word_n_unitary object. This class
- * mais purpose is to be compatible with operation such as addition or multiplication.
+ * Class which store n * 32 bit data, using n Word_n_unitary object. This class
+ * purpose is to be compatible with operation such as addition or multiplication.
  * 
  * 
  * @author Adrien GRAS
@@ -29,7 +29,7 @@ class Word_n {
 private:
 
     // The data array
-    std::array<Word_n_unitary, static_cast<int>(pow(2, n - 5))> data;
+    std::array<Word_n_unitary, static_cast<int>(n / 32)> data;
 
 
 public:
@@ -37,14 +37,16 @@ public:
     /**
      * n verification :
      * 
-     * If n is lower than 5, just use a classic uint16_t
+     * We store data into 32 bit long storage, so n must be a multiple of 32
+     * 
+     * If n is lower than 64, just use a classic uint16_t
      * 
      * To prevent to big variable, I made a max size limit :
-     * -> If n greater than 16 (you can alredy do a loads of things with 2^16bits)
-     *  the compilator refuse the instanciation.
+     * -> The maximum is 65 536 bits.
      */
-    static_assert(n >= 5,   "n must be greater than 5, just use uint16_t...");
-    static_assert(n <= 16,  "n must be lower than 16, to prevent too big variables");
+    static_assert(n % 32 == 0,  "n must be a multiple of 32...");
+    static_assert(n >= 64,      "n must be greater than 64, just use uint16_t...");
+    static_assert(n <= 65536,   "n must be lower than 65536, to prevent too big variables");
 
 
     // Constructors
@@ -61,7 +63,6 @@ public:
     void            setBloc     (const Word_n_unitary unitary_word, int index)          {this->data[index] = unitary_word;}
     Word_n_unitary  getBloc     (int index)                                     const   {return this->data[index];}
     int             dataSize    ()                                                      {return this->data.size();}
-    int             binarySize  ()                                                      {return this->data.size() * 32;}
 
 
     // Fill a random value in the word
@@ -73,8 +74,8 @@ public:
 
 
     // Word<n+1> and Word<n-1> cast
-    Word_n<n+1>     upSize()    const;
-    Word_n<n-1>     downSize()  const;
+    Word_n<2 * n>   upSize()     const;
+    Word_n<n / 2>   downSize()  const;
 
 
     // Max-out value method
@@ -99,13 +100,13 @@ public:
 
     // Overriding operators
     template<int m>
-    Word_n<n+1>     operator+   (const Word_n<m>& word_n_2) const;
+    Word_n<2 * n>   operator+   (const Word_n<m>& word_n_2) const;
 
     template<int m>
     Word_n<n>       operator-   (const Word_n<m>& word_n_2) const;
 
     template<int m>
-    Word_n<n+1>     operator*   (const Word_n<m>& word_n_2) const;
+    Word_n<2 * n>   operator*   (const Word_n<m>& word_n_2) const;
     Word_n<n>&      operator=   (std::string data);
 
 
@@ -313,19 +314,19 @@ void Word_n<n>::display(bool string_shape) const {
  * Word<n+1> cast
  */
 template <int n>
-Word_n<n+1> Word_n<n>::upSize() const {
+Word_n<2 * n> Word_n<n>::upSize() const {
 
     /**
      * n verification :
      * 
-     * -> because it generate a result with a rank n+1 which must respect n+1 < 17,
-     * n < 16
+     * -> because it generate a result with a rank 2 * n which must respect 2 * n <= 65 536,
+     * n <= 32 768
      */
-    static_assert(n < 16, "The rank of the operand must be lower than 16.");
+    static_assert(n <= 32768, "The rank of the operand must be lower than 32 768.");
 
 
     // Result generation
-    Word_n<n+1> result;
+    Word_n<2 * n> result;
 
 
     // Running through all data in the operand
@@ -347,19 +348,19 @@ Word_n<n+1> Word_n<n>::upSize() const {
  * Word<n+1> cast
  */
 template <int n>
-Word_n<n-1> Word_n<n>::downSize() const {
+Word_n<n / 2> Word_n<n>::downSize() const {
 
     /**
      * n verification :
      * 
-     * -> because it generate a result with a rank n-1 which must respect n-1 > 5,
-     * n > 6
+     * -> because it generate a result with a rank n / 2 which must respect n / 2 >= 64,
+     * n >= 128
      */
-    static_assert(n > 6, "The rank of the operand must be greater than 6.");
+    static_assert(n >= 128, "The rank of the operand must be greater than 128.");
 
 
     // Result generation
-    Word_n<n-1> result;
+    Word_n<n / 2> result;
 
 
     // Running through all data in the operand
@@ -435,12 +436,13 @@ Word_n<n> Word_n<n>::modularAdd(const Word_n<m>& word_n_2, const Word_n<l>& modu
      * Operand verification :
      * 
      * -> the rank of all 3 operand must be equal : n = m = l
-     * -> because there is a interlediary result, the same rules for size check is needed
+     * -> because it generate a result with a rank 2 * n which must respect 2 * n <= 65 536,
+     * n <= 32 768
      * -> we considere that in A + B [N], A and B are already modulo N. And so, A and B are
      * lower than N.
      */
-    static_assert(n == m, "The rank of the three operand must be equal.");
-    static_assert(n < 16, "The rank of the two added operand must be lower than 16.");
+    static_assert(n == m,       "The rank of the three operand must be equal.");
+    static_assert(n < 32768,    "The rank of the two added operand must be lower than 32 768.");
 
 
     // Verification
@@ -450,7 +452,7 @@ Word_n<n> Word_n<n>::modularAdd(const Word_n<m>& word_n_2, const Word_n<l>& modu
 
 
     // Generating the result
-    Word_n<n+1> sum;
+    Word_n<2 * n> sum;
 
 
     // Making the actual addition
@@ -577,21 +579,21 @@ Word_n<n> Word_n<n>::montgomery(const Word_n<rank_1>& word_n_2,
  */
 template <int n>
 template <int m>
-Word_n<n+1> Word_n<n>::operator+(const Word_n<m>& word_n_2) const {
+Word_n<2 * n> Word_n<n>::operator+(const Word_n<m>& word_n_2) const {
 
     /**
      * n and m verification :
      * 
      * -> n and m must be equal.
-     * -> n and m respect the instanication rules, so therefore the result wich is 2*n
-     * and so n = m < 16.
+     * -> because it generate a result with a rank 2 * n which must respect 2 * n <= 65 536,
+     * n <= 32 768
      */
-    static_assert(n == m, "The rank of the two operand must be equal.");
-    static_assert(n < 16, "The rank of the two operand must be lower than 16.");
+    static_assert(n == m,       "The rank of the two operand must be equal.");
+    static_assert(n <= 32768,  "The rank of the two operand must be lower than 32 768.");
 
 
     // Sum creation
-    Word_n<n+1> sum;
+    Word_n<2 * n> sum;
 
 
     // Running through every word units
@@ -687,21 +689,21 @@ Word_n<n> Word_n<n>::operator-(const Word_n<m>& word_n_2) const {
  */
 template <int n>
 template <int m>
-Word_n<n+1> Word_n<n>::operator*(const Word_n<m>& word_n_2) const {
+Word_n<2 * n> Word_n<n>::operator*(const Word_n<m>& word_n_2) const {
 
     /**
      * n and m verification :
      * 
      * -> n and m must be equal.
-     * -> n and m respect the instanication rules, so therefore the result wich is 2*n
-     * and so n = m < 16.
+     * -> because it generate a result with a rank 2 * n which must respect 2 * n <= 65 536,
+     * n <= 32 768
      */
-    static_assert(n == m, "The rank of the two operand must be equal.");
-    static_assert(n < 16, "The rank of the two operand must be lower than 16.");
+    static_assert(n == m,       "The rank of the two operand must be equal.");
+    static_assert(n <= 32768,  "The rank of the two operand must be lower than 32 768.");
 
 
     // Product creation
-    Word_n<n+1> product;
+    Word_n<2 * n> product;
 
 
     // Main vars

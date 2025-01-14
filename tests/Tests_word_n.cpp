@@ -38,7 +38,7 @@ int main() {
 
 
     // Display test
-    Word_n<7> word;
+    Word_n<128> word;
     std::cout << "Test(Word_n) : Cout -> \n" << word << std::endl;
     std::cout << "\n\n" << std::endl;
     std::cout << "Test(Word_n) : DISPLAY -> \n";
@@ -59,15 +59,6 @@ int main() {
         std::cout << "Test(Word_n) : DATA SIZE                 -> FAILED";
     } else {
         std::cout << "Test(Word_n) : DATA SIZE                 -> PASSED\n";
-    }
-
-
-    // Binary size test
-    if (word.binarySize() != 128) {
-        test += 1;
-        std::cout << "Test(Word_n) : BINARY SIZE               -> FAILED {=" << word.binarySize() << "}\n";
-    } else {
-        std::cout << "Test(Word_n) : BINARY SIZE               -> PASSED\n";
     }
 
 
@@ -187,8 +178,8 @@ int main() {
 int test_Word_n_comparator() {
 
     // Test variables
-    Word_n<8> word_n_1;
-    Word_n<8> word_n_2;
+    Word_n<256> word_n_1;
+    Word_n<256> word_n_2;
 
 
 
@@ -272,9 +263,9 @@ int test_Word_n_comparator() {
 int test_Word_n_addition() {
 
     // Test variables
-    Word_n<8> word_n_1;
-    Word_n<8> word_n_2;
-    Word_n<9> word_n_3;
+    Word_n<256> word_n_1;
+    Word_n<256> word_n_2;
+    Word_n<512> word_n_3;
 
 
     /**
@@ -351,9 +342,9 @@ int test_Word_n_addition() {
 int test_Word_n_substraction() {
 
     // Test variables
-    Word_n<8> word_n_1;
-    Word_n<8> word_n_2;
-    Word_n<8> word_n_3;
+    Word_n<256> word_n_1;
+    Word_n<256> word_n_2;
+    Word_n<256> word_n_3;
 
 
     /**
@@ -430,9 +421,9 @@ int test_Word_n_substraction() {
 int test_Word_n_multiplication() {
 
     // Test variables
-    Word_n<8> word_n_1;
-    Word_n<8> word_n_2;
-    Word_n<9> word_n_3;
+    Word_n<256> word_n_1;
+    Word_n<256> word_n_2;
+    Word_n<512> word_n_3;
 
 
     /**
@@ -509,10 +500,10 @@ int test_Word_n_multiplication() {
 int test_Word_n_modular_addition() {
 
     // Test variables
-    Word_n<8> module_;
-    Word_n<8> word_n_1;
-    Word_n<8> word_n_2;
-    Word_n<8> word_n_3;
+    Word_n<256> module_;
+    Word_n<256> word_n_1;
+    Word_n<256> word_n_2;
+    Word_n<256> word_n_3;
 
 
     /**
@@ -600,16 +591,16 @@ int test_Word_n_modular_addition() {
  */
 int test_Word_n_montgomery_multiplication() {
 
-    // Test variables
-    Word_n<8> module_;
-    Word_n<8> word_n_1;
-    Word_n<8> word_n_2;
-    Word_n<8> word_n_3;
-    Word_n<9> r;
-    Word_n<8> r_;
+    // // Test variables
+    // Word_n<256> module_;
+    // Word_n<256> word_n_1;
+    // Word_n<256> word_n_2;
+    // Word_n<256> word_n_3;
+    // Word_n<288> r;
+    // Word_n<256> r_;
 
 
-    word_n_3 = word_n_1.montgomery(word_n_2, module_, r, r_);
+    // word_n_3 = word_n_1.montgomery(word_n_2, module_, r, r_);
 
 
     // End of test

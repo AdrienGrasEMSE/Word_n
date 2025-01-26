@@ -70,12 +70,17 @@ public:
 
 
     // Display
-    void            display(bool string_shape = false) const;
+    void            display     (bool string_shape = false) const;
 
 
     // Word<n+1> and Word<n-1> cast
-    Word_n<2 * n>   upSize()     const;
+    Word_n<2 * n>   upSize()    const;
     Word_n<n / 2>   downSize()  const;
+
+
+    // Crop another Word<m> with m >= n
+    template<int m>
+    void            crop        (const Word_n<m>& word_n_2);
 
 
     // Max-out value method
@@ -100,14 +105,18 @@ public:
 
     // Overriding operators
     template<int m>
-    Word_n<2 * n>   operator+   (const Word_n<m>& word_n_2) const;
+    Word_n<n + 32>  operator+   (const Word_n<m>& word_n_2) const;
 
     template<int m>
     Word_n<n>       operator-   (const Word_n<m>& word_n_2) const;
 
     template<int m>
     Word_n<2 * n>   operator*   (const Word_n<m>& word_n_2) const;
+
     Word_n<n>&      operator=   (std::string data);
+
+    template<int m>
+    Word_n<n>&      operator=   (const Word_n<m>& word_n_2);
 
 
     // Overriding comparators
@@ -379,6 +388,29 @@ Word_n<n / 2> Word_n<n>::downSize() const {
 
 
 /**
+ * Crop another Word<m> with m >= n
+ */
+template <int n>
+template <int m>
+void  Word_n<n>::crop(const Word_n<m>& word_n_2) {
+
+    /**
+     * n and m verification :
+     * 
+     * -> m must be greater than n
+     */
+    static_assert(n <= m,       "The rank of the second operand must be greater than the first one");
+
+
+    // Getting all data possible
+    for (int i = 0; i < (n / 32); i++) {
+        this->data[i] = word_n_2.getBloc(i);
+    }
+
+}
+
+
+/**
  * Returning the maximum value possible
  */
 template <int n>
@@ -497,53 +529,56 @@ Word_n<n> Word_n<n>::montgomery(const Word_n<rank_1>& word_n_2,
      */
     static_assert(  n == rank_1 &&
                     n == rank_2 &&
-                    n == (rank_3 - 1) &&
-                    n == rank_4, "The rank of all operand must be equal (except for the R).");
-    static_assert(n < 14, "The rank of the two multiplied operand must be lower than 14.");
+                    n == (rank_3 - 32) &&
+                    n == rank_4,            "The rank of all operand must be equal (except for the R).");
+    static_assert(n < 16384,                "The rank of the two multiplied operand must be lower than 16 384.");
 
 
-    // Verification
-    if (*this >= module_ || word_n_2 >= module_) {
-        throw std::out_of_range("The two operand multiplied must be lower than the module.");
-    }
+    // // Verification
+    // if (*this >= module_ || word_n_2 >= module_) {
+    //     throw std::out_of_range("The two operand multiplied must be lower than the module.");
+    // }
 
 
     // Division simplification verification
 
 
-    // Intermediate value
-    Word_n<n + 1>   _S_;
-    Word_n<n + 2>   _T_temporary;
-    Word_n<n + 1>   _T_;
-    Word_n<n + 3>   _M_;
-    Word_n<n + 1>   _U_;
-    Word_n<n>       product;
-
-
     // S = A * B
-    _S_ = *this * word_n_2;
+    Word_n<2 * n>       _S_;
+    _S_                 = *this * word_n_2;
+
+    _S_.display(true);
+    std::cout << "0x70344D18 918BA254 B873966A 466FE402 FC5B5C23 9DAC62DD CC875CDD D68DE105 E431B4AB 9FDCF0C1 8C542F84 0E8E0997 99F35A5F 0627731D 2E390FAB E2505520" << std::endl;
 
 
     // T = S * R' [R]
-    _T_temporary = _S_ * r_.upSize();
-    _T_ = _T_temporary.downSize();      // TODO : EXPLAIN THIS SHIT
+    Word_n<n + 32>      _T_;
+    _T_.crop            (_S_ * r_.upSize());            // TODO : explain this
+    _T_.setBloc         (_T_.getBloc(n + 31).getData() & 0x0FFFFFFF, n + 31);
 
 
-    // M = S + T * N
-    _M_ = _S_.upSize() + (_T_ * module_.upSize());
+    // M = S + T * N = S + temp
+    Word_n<2 * n + 32>  _M_;
+    Word_n<n + 32>      temp_mod;
+    temp_mod            = module_;
+    Word_n<2 * n + 32>  temp_S;
+    temp_S              = _S_;
+    Word_n<2 * n + 32>  temp_mul;
+    temp_mul            .crop(_T_ * temp_mod);
+    _M_                 .crop(temp_S + temp_mul);
 
 
     // U = M / R
-    _U_ = _M_.downSize().downSize();
+    Word_n<n>           _U_;
+    _U_                 .crop(_M_);
 
 
     // Result calculation
-    if (_U_ > module_.upSize()) {
-        Word_n<n + 1>       product_temporary;
-        product_temporary   = _U_ - module_.upSize();
-        product             = product_temporary.downSize();
+    Word_n<n>           product;
+    if (_U_ > module_) {
+        product         = _U_ - module_;
     } else {
-        product             = _U_.downSize();
+        product         = _U_;
     }
 
 
@@ -579,21 +614,20 @@ Word_n<n> Word_n<n>::montgomery(const Word_n<rank_1>& word_n_2,
  */
 template <int n>
 template <int m>
-Word_n<2 * n> Word_n<n>::operator+(const Word_n<m>& word_n_2) const {
+Word_n<n + 32> Word_n<n>::operator+(const Word_n<m>& word_n_2) const {
 
     /**
      * n and m verification :
      * 
      * -> n and m must be equal.
-     * -> because it generate a result with a rank 2 * n which must respect 2 * n <= 65 536,
-     * n <= 32 768
+     * -> because it generate a result with a rank n + 32 which must respect n + 32 <= 65 536
      */
     static_assert(n == m,       "The rank of the two operand must be equal.");
-    static_assert(n <= 32768,  "The rank of the two operand must be lower than 32 768.");
+    static_assert(n <= 65504,   "The rank of the two operand must be lower than 65 504.");
 
 
     // Sum creation
-    Word_n<2 * n> sum;
+    Word_n<n + 32> sum;
 
 
     // Running through every word units
@@ -752,6 +786,38 @@ Word_n<n>& Word_n<n>::operator=(std::string data) {
 
     // Data instanciation
     this->setData(data);    
+
+
+    // Returning itslef
+    return *this;
+
+}
+
+
+/**
+ * Convertion from Word<n> to Word<m> :
+ * Word<n> = Word<m>
+ */
+template <int n>
+template <int m>
+Word_n<n>& Word_n<n>::operator=(const Word_n<m>& word_n_2) {
+
+    /**
+     * n and m verification :
+     * 
+     * -> n must be greater than m
+     */
+    static_assert(n >= m,       "The rank of the first operand must be greater than the second one");
+
+
+    // Reseting
+    this->reset();
+
+
+    // Getting all data from word_n_2
+    for (int i = 0; i < (m / 32); i ++) {
+        this->data[i] = word_n_2.getBloc(i);
+    } 
 
 
     // Returning itslef

@@ -265,7 +265,7 @@ int test_Word_n_addition() {
     // Test variables
     Word_n<256> word_n_1;
     Word_n<256> word_n_2;
-    Word_n<512> word_n_3;
+    Word_n<288> word_n_3;
 
 
     /**
@@ -591,16 +591,32 @@ int test_Word_n_modular_addition() {
  */
 int test_Word_n_montgomery_multiplication() {
 
-    // // Test variables
-    // Word_n<256> module_;
-    // Word_n<256> word_n_1;
-    // Word_n<256> word_n_2;
-    // Word_n<256> word_n_3;
-    // Word_n<288> r;
-    // Word_n<256> r_;
+    // Test variables
+    Word_n<256> module_;
+    Word_n<256> word_n_1;
+    Word_n<256> word_n_2;
+    Word_n<256> word_n_3;
+    Word_n<288> r;
+    Word_n<256> r_;
 
 
-    // word_n_3 = word_n_1.montgomery(word_n_2, module_, r, r_);
+    word_n_1    = "0xcdf9e03d3e974ad996c4af030f9b94d7654174a5c8e27f509fa07518cb8b8fa8";
+    word_n_2    = "0x8b745d5be2da36899c1754b76884245754d345b336ae6fff53833042ce34e594";
+    module_     = "0xffffffff00000001000000000000000000000000ffffffffffffffffffffffff";
+    r           = "0x100000000000000000000000000000000000000000000000000000000000000000000000";
+    r_          = "0xffffffff00000002000000000000000000000001000000000000000000000001";
+
+
+    word_n_3 = word_n_1.montgomery(word_n_2, module_, r, r_);
+
+
+    word_n_3.display(true);
+    std::cout << "0x3483c38d9cd995b26634b72b95fcc25ef2c5005d19bd138d138c83a6f4d9e4c2" << std::endl;
+
+
+    // Test + reset
+    if (word_n_3 != "0x3483c38d9cd995b26634b72b95fcc25ef2c5005d19bd138d138c83a6f4d9e4c2") {return 1;}
+    word_n_3.setData("0x0");
 
 
     // End of test
